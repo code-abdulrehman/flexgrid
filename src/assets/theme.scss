@@ -279,3 +279,59 @@ input[type="number"] {
    background-color: var(--bg-divider);
    width: 2px;
 }
+
+.bg-secondary {
+   background-color: var(--bg-secondary);
+}
+
+.bg-content {
+   background-color: var(--bg-content);
+}
+
+.bg-content-active {
+   background-color: var(--bg-content-active);
+}
+
+.bg-content-hover {
+   background-color: var(--bg-content-hover);
+}
+
+.bg-primary {
+   background-color: var(--bg-primary);
+}
+
+.bg-container {
+   background-color: var(--bg-container);
+}
+
+.bg-modal {
+   background-color: var(--bg-modal);
+}  
+
+.bg-button {
+   background-color: var(--bg-button);
+}
+
+.bg-content-border {
+   background-color: var(--bg-content-border);
+}
+
+.bg-content-dot {
+   background-color: var(--bg-content-dot);
+}
+
+.bg-icon-border {
+   background-color: var(--icon-border);
+}
+
+.bg-icon-shadow {
+   background-color: var(--icon-shadow);
+}
+
+.text-primary {
+   color: var(--text-primary);
+}
+
+.text-secondary {
+   color: var(--text-secondary);
+}

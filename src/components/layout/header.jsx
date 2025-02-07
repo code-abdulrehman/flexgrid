@@ -36,8 +36,8 @@ const Header = () => {
                     </Link>
                     <div className="h-10 bg-divider inline-block"></div>
                     <div className="flex flex-row items-center gap-2 w-full">
-                        <Link to={isFlex ? "/flex" : "/grid"} className="w-full">
-                            <span className="px-4 py-2 border-2 border-primary rounded-full w-36 h-12 capitalize flex flex-row items-center justify-center gap-2">
+                        <Link to={isFlex ? "/flex" : "/grid"} className="w-full font-bold">
+                            <span className="bg-secondary hover:text-primary px-4 py-2 bordr-2 borer-primary rounded-full w-36 h-16 capitalize flex flex-row items-center justify-center gap-2">
                                 <HiExternalLink className="text-3xl" />
                                 {isFlex ? "flex" : "grid"}
                             </span>
