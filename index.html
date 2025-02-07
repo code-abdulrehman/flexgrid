@@ -2,12 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>Flex Grid</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      (function () {
+        const htmlElement = document.documentElement;
+        const storedTheme = localStorage.getItem("theme");
+        
+        if (storedTheme) {
+          htmlElement.setAttribute("data-theme", storedTheme);
+        } else {
+          const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+          const systemTheme = darkThemeMq.matches ? "dark" : "light";
+          htmlElement.setAttribute("data-theme", systemTheme);
+          localStorage.setItem("theme", systemTheme);
+        }
+      })();
+    </script>
   </body>
 </html>
