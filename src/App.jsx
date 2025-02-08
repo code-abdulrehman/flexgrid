@@ -1,28 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState } from 'react'
-import Header from './components/layout/header'
-import Footer from './components/layout/footer'
-import Sidebar from './components/layout/sidebar'
-import Main from './components/layout/main'
+import Header from "./components/layout/header";
+import Footer from "./components/layout/footer";
+import Sidebar from "./components/layout/sidebar";
+import HideableSidebar from "./components/layout/hideableSidebar";
+import Main from "./components/layout/main";
 
 const App = () => {
+  // Get the initial state from localStorage (or default to false)
+  const initialSidebarVisible = localStorage.getItem("sidebarVisible") === "true";
+  const [isSidebarVisible, setIsSidebarVisible] = useState(initialSidebarVisible);
+
+  // Toggle function that updates both state and localStorage
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => {
+      const newState = !prev;
+      localStorage.setItem("sidebarVisible", newState);
+      return newState;
+    });
+  };
+
   return (
     <BrowserRouter>
-      <div className="p-6 m-0 flex flex-col h-screen w-screen overflow-hidden">
+      <div className="p-6 m-0 flex flex-col gap-4 h-screen w-screen overflow-hidden">
         <Header />
-        <div className="flex flex-row h-full w-full">
-          <Sidebar />
-        <Routes>
-          {/* Redirect from / to /flex */}
-          <Route path="/" element={<Navigate to="/flex" replace />} />
-          <Route path="/flex" element={<Main />} />
-          <Route path="/grid" element={<Main />} />
-        </Routes>
+        <div className="flex flex-row gap-4 h-full w-full">
+          {/* Pass down both the current state and the toggle callback */}
+          <Sidebar sidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
+          {isSidebarVisible && <HideableSidebar sidebarVisible={isSidebarVisible} />}
+          <Routes>
+            {/* Redirect from / to /flex */}
+            <Route path="/" element={<Navigate to="/flex" replace />} />
+            <Route path="/flex" element={<Main />} />
+            <Route path="/grid" element={<Main />} />
+            {/* You can add more routes as needed */}
+          </Routes>
         </div>
+        <Footer />
       </div>
     </BrowserRouter>
-  )
-}
+  );
+};
 
 export default App;
