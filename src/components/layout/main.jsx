@@ -4,13 +4,13 @@ import ResizableMain from "../common/resizeablemain";
 const Main = () => {
    return (
       <>
-         <div className=" grow w-auto h-full custom-rounded-lg transition-[width] ease-in duration-100 overflow-hidden ">
+         <div className=" grow w-auto h-full custom-rounded-lg transition-[width] ease-in duration-100">
 
-            <ResizableMain className=" grow bg-secondary w-auto h-full custom-rounded-lg transition-[width] ease-in-out duration-100 bg-pattern overflow-hidden  shadow-lg">
+            <ResizableMain className=" grow w-auto h-full custom-rounded-lg transition-[width] ease-in-out duration-100 overflow-hidden">
                <div className="w-full h-full bg-primary">
                   hello
                </div>
-      </ResizableMain >
+            </ResizableMain >
          </div>
       </>
    )

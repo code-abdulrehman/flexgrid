@@ -7,6 +7,8 @@ import HideableSidebar from "./components/layout/hideableSidebar";
 import Main from "./components/layout/main";
 
 const App = () => {
+  const [isFlex, setIsFlex] = useState(sessionStorage.getItem("isFlex") === "true");
+
   // Get the initial state from localStorage (or default to false)
   const initialSidebarVisible = localStorage.getItem("sidebarVisible") === "true";
   const [isSidebarVisible, setIsSidebarVisible] = useState(initialSidebarVisible);
@@ -24,14 +26,14 @@ const App = () => {
     <BrowserRouter>
       <div className="p-6 m-0 flex flex-col gap-4 h-screen w-screen overflow-hidden">
         <Header />
-        <div className="flex flex-col md:flex-row gap-4 h-full w-full">
+        <div className="flex flex-col md:flex-row gap-4 h-full w-full overflow-y-auto">
           {/* Pass down both the current state and the toggle callback */}
           <Sidebar sidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} className="md:order-1 order-3"/>
-          {isSidebarVisible && <HideableSidebar sidebarVisible={isSidebarVisible} className="md:order-2 order-2"/>}
+          {isSidebarVisible && <HideableSidebar sidebarVisible={isSidebarVisible} className="md:order-2 order-2 overflow-y-auto"/>}
           <div className="w-full h-full md:order-3 order-1">
           <Routes>
             {/* Redirect from / to /flex */}
-            <Route path="/" element={<Navigate to="/flex" replace />} />
+            <Route path="/" element={<Navigate to={isFlex ? "/flex#pen" : "/grid#pen"} replace />} />
             <Route path="/flex" element={<Main />} />
             <Route path="/grid" element={<Main />} />
             {/* You can add more routes as needed */}

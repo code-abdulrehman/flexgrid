@@ -77,7 +77,7 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
   const activeHash = location.hash; // For example, "#pen"
 
   return (
-    <div className={className + " md:min-w-28 md:max-w-28 w-full bg-secondary md:min-h-full md:max-h-full min-h-28 max-h-28 custom-rounded-lg flex md:flex-col flex-row gap-4 shadow-lg"}>
+    <div className={className + " md:min-w-28 md:max-w-28 w-full bg-secondary md:min-h-full md:max-h-full min-h-28 max-h-28 custom-rounded-lg flex md:flex-col flex-row gap-4 shadow-lg transition-all duration-300"}>
       <div className="w-[75%] md:w-full flex md:flex-col md:justify-start justify-between items-center md:gap-4 p-4 md:pr-4 pr-0 md:h-[80%] h-full grow">
         {/* Collapse/Expand button */}
         <span
@@ -87,7 +87,7 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
           {sidebarVisible ? routes[0].icon : <TbLayoutSidebarRightCollapse />}
         </span>
 
-        <div className="h-1 w-16 bg-divider md:inline-block hidden"></div>
+        <div className="min-h-1 max-h-1 w-16 bg-divider md:inline-block hidden"></div>
 
         {/* Render the intermediate routes */}
         {routes.slice(1, routes.length - 1).map((route, index) => (
@@ -100,8 +100,8 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
               <span
                 className={`cursor-pointer text-4xl flex justify-center items-center w-16 h-16 p-2 ${
                   route.path.replace("?", "") === activeHash
-                    ? "bg-contrast rounded-xl text-contrast"
-                    : "bg-secondary text-secondary"
+                    ? "bg-icon rounded-xl text-white"
+                    : "bg-transparent text-secondary"
                 }`}
               >
                 {route.icon}
@@ -110,7 +110,7 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
           </Link>
         ))}
 
-        <div className="h-1 w-16 bg-divider md:inline-block hidden"></div>
+        <div className="min-h-1 max-h-1 w-16 bg-divider md:inline-block hidden"></div>
 
         {/* Render the last route */}
         <Link
@@ -119,23 +119,25 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
         >
           <span className={`cursor-pointer text-4xl flex justify-center items-center w-16 h-16 p-2 ${
                   routes[routes.length - 1].path.replace("?", "") === activeHash
-                    ? "bg-contrast rounded-xl text-contrast"
-                    : "bg-secondary text-secondary"
+                    ? "bg-icon rounded-xl text-white"
+                    : "bg-transparent text-secondary"
                 }`}>
             {routes[routes.length - 1].icon}
           </span>
         </Link>
       </div>
 
-      <div className="flex justify-center h-[1%]">
-        <div className="h-1 w-16 bg-divider md:inline-block hidden"></div>
+      <div className="flex justify-center">
+        <div className="min-h-1 max-h-1 w-16 bg-divider md:inline-block hidden"></div>
       </div>
 
       <div className="w-[25%] md:w-full flex justify-between md:justify-center items-center gap-4 md:pl-4 pl-0 p-4 md:h-[15%] h-full md:flex-col">
         {bottomRoute.map((route, index) => (
           <Link
             key={index}
-            to={route.path}
+            to={route.path==="?#github" ? "https://github.com/code-abdulrehman/flexgrid" : route.path}
+            target={route.path==="?#github" ? "_blank" : "_self"}
+            rel="noopener noreferrer"
             onClick={() => handleRouteClick(route)}
         >
           <span className="cursor-pointer text-4xl flex justify-center items-center w-16 h-16 p-2 bg-secondary text-secondary hover:text-primary">
