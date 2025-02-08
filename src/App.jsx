@@ -24,10 +24,11 @@ const App = () => {
     <BrowserRouter>
       <div className="p-6 m-0 flex flex-col gap-4 h-screen w-screen overflow-hidden">
         <Header />
-        <div className="flex flex-row gap-4 h-full w-full">
+        <div className="flex flex-col md:flex-row gap-4 h-full w-full">
           {/* Pass down both the current state and the toggle callback */}
-          <Sidebar sidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
-          {isSidebarVisible && <HideableSidebar sidebarVisible={isSidebarVisible} />}
+          <Sidebar sidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} className="md:order-1 order-3"/>
+          {isSidebarVisible && <HideableSidebar sidebarVisible={isSidebarVisible} className="md:order-2 order-2"/>}
+          <div className="w-full h-full md:order-3 order-1">
           <Routes>
             {/* Redirect from / to /flex */}
             <Route path="/" element={<Navigate to="/flex" replace />} />
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="/grid" element={<Main />} />
             {/* You can add more routes as needed */}
           </Routes>
+          </div>
         </div>
         <Footer />
       </div>

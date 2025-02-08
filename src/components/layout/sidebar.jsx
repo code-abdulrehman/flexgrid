@@ -11,7 +11,7 @@ import { IoLogoGithub } from "react-icons/io5";
 import { MdSave } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
 
-const Sidebar = ({ sidebarVisible, toggleSidebar }) => {
+const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
   const location = useLocation();
   
   // For demonstration: this variable is logged on manual route clicks.
@@ -77,17 +77,17 @@ const Sidebar = ({ sidebarVisible, toggleSidebar }) => {
   const activeHash = location.hash; // For example, "#pen"
 
   return (
-    <div className="min-w-28 max-w-28 bg-secondary h-full custom-rounded-lg flex flex-col gap-4 shadow-lg">
-      <div className="w-full flex flex-col items-center gap-4 p-4 h-[80%] grow">
+    <div className={className + " md:min-w-28 md:max-w-28 w-full bg-secondary md:min-h-full md:max-h-full min-h-28 max-h-28 custom-rounded-lg flex md:flex-col flex-row gap-4 shadow-lg"}>
+      <div className="w-[75%] md:w-full flex md:flex-col md:justify-start justify-between items-center md:gap-4 p-4 md:pr-4 pr-0 md:h-[80%] h-full grow">
         {/* Collapse/Expand button */}
         <span
-          className="text-4xl flex justify-center items-center rounded w-16 h-16 p-2 cursor-pointer text-primary"
+          className="text-4xl flex justify-center items-center rounded w-16 h-16 p-2 cursor-pointer text-primary md:rotate-0 -rotate-90"
           onClick={toggleSidebar}
         >
           {sidebarVisible ? routes[0].icon : <TbLayoutSidebarRightCollapse />}
         </span>
 
-        <div className="h-1 w-16 bg-divider inline-block"></div>
+        <div className="h-1 w-16 bg-divider md:inline-block hidden"></div>
 
         {/* Render the intermediate routes */}
         {routes.slice(1, routes.length - 1).map((route, index) => (
@@ -110,7 +110,7 @@ const Sidebar = ({ sidebarVisible, toggleSidebar }) => {
           </Link>
         ))}
 
-        <div className="h-1 w-16 bg-divider inline-block"></div>
+        <div className="h-1 w-16 bg-divider md:inline-block hidden"></div>
 
         {/* Render the last route */}
         <Link
@@ -128,10 +128,10 @@ const Sidebar = ({ sidebarVisible, toggleSidebar }) => {
       </div>
 
       <div className="flex justify-center h-[1%]">
-        <div className="h-1 w-16 bg-divider inline-block"></div>
+        <div className="h-1 w-16 bg-divider md:inline-block hidden"></div>
       </div>
 
-      <div className="w-full flex justify-center items-center gap-4 p-4 h-[15%] flex-col">
+      <div className="w-[25%] md:w-full flex justify-between md:justify-center items-center gap-4 md:pl-4 pl-0 p-4 md:h-[15%] h-full md:flex-col">
         {bottomRoute.map((route, index) => (
           <Link
             key={index}
