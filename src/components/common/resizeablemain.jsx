@@ -95,14 +95,14 @@ const ResizableMain = ({ children, className }) => {
   };
 
   return (
-    <div className="w-full h-full relative bg-secondary shadow-lg custom-rounded-lg relative">
+    <div className="w-full h-full relative bg-pattern shadow-lg custom-rounded-lg relative">
           <code className="text-md absolute top-2 right-2 transition-all duration-300 ease-in-out z-10">
             {dimensions.width==="100%"? "" :
             (Math.round(dimensions.width) + "x" + Math.round(dimensions.height))}
           </code>
          
       <div
-        className={`${className} w-full h-full group hover:ring-[--icon-border] hover:ring-2 bg-pattern`}
+        className={`${className} w-full h-full group hover:ring-[--icon-border] hover:ring-2 bg-main-container`}
         ref={containerRef}
         style={{
           // When dimensions is a number, React will treat it as pixels.

@@ -1,3 +1,4 @@
+// CustomInput.jsx
 import React from "react";
 
 const CustomInput = ({
@@ -12,7 +13,6 @@ const CustomInput = ({
   options = [],
   ...rest
 }) => {
-  // Render a select element if type is "select"
   if (type === "select") {
     return (
       <select
@@ -33,7 +33,6 @@ const CustomInput = ({
       </select>
     );
   } else {
-    // Prepare additional props for a number input
     const extraProps = type === "number" ? { min, max, step } : {};
     return (
       <input
@@ -41,7 +40,7 @@ const CustomInput = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`bg-secondary text-secondary text-center rounded-2xl min-w-12 p-1 focus:outline-none w-fit ${className}`}
+        className={`bg-secondary text-secondary text-center rounded-2xl min-w-12 p-[1.5px] focus:outline-none w-fit ${className}`}
         {...extraProps}
         {...rest}
       />

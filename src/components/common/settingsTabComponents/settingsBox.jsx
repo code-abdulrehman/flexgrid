@@ -78,9 +78,10 @@ const SettingsBox = () => {
             <div className="w-full h-full rounded-full bg-gray-300 
                             peer-focus:ring-0
                             transition-colors duration-300
-                            peer-checked:bg-[var(--color-primary)]"></div>
+                            bg-[var(--text-secondary)]
+                            peer-checked:bg-[var(--color-primary)] "></div>
             {/* Toggle Knob */}
-            <span className="absolute left-0.5 top-0.5 h-7 w-7 bg-white rounded-full 
+            <span className="absolute left-0.5 top-0.5 h-7 w-7 inset-t-box-shadow bg-white rounded-full 
                              transition-transform duration-300 
                              peer-checked:translate-x-8"></span>
           </label>
