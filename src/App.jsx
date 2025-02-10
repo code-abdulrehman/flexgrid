@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="p-6 m-0 flex flex-col gap-4 h-screen w-screen overflow-hidden mt-10">
+      <div className="p-6 m-0 flex flex-col gap-4 h-screen w-screen overflow-hidden">
         <Header />
         <div className="flex flex-col md:flex-row gap-4 h-full w-full overflow-y-auto">
           {/* Pass down both the current state and the toggle callback */}
