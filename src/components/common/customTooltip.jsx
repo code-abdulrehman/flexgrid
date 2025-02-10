@@ -31,7 +31,7 @@ const CustomTooltip = ({ tooltipText = "Info", className = "" }) => {
         onClick={handleToggleTooltip}
         className="w-16 h-16 flex items-center justify-center bg-secondary rounded-full inset-b-box-shadow cursor-pointer"
       >
-        <FaInfo className="w-8 h-8 text-primary" />
+        <FaInfo className="w-8 h-8 text-secondary" />
       </span>
       {isTooltipOpen && (
         <div className="rounded-xl border-2 border-icon shadow-xl absolute top-full ml-4 -left-4/5 transform -translate-x-1/2 mt-2 px-3 py-2 bg-primary text-secondary rounded shadow-lg z-50 w-[34rem] text-md font-semibold">

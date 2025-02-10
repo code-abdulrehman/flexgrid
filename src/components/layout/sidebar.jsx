@@ -1,18 +1,25 @@
 import React, { useState } from "react";
-import { HiCode, HiPencil } from "react-icons/hi";
+import { HiCode, HiOutlinePencil } from "react-icons/hi";
 import {
-  TbAdjustmentsHorizontal,
   TbLayoutSidebarRightCollapse,
   TbLayoutSidebarLeftCollapse,
 } from "react-icons/tb";
+
 import { FaRegQuestionCircle } from "react-icons/fa";
 import { RiLayout4Fill } from "react-icons/ri";
+import { PiSlidersHorizontalBold } from "react-icons/pi";
 import { IoLogoGithub } from "react-icons/io5";
 import { MdSave } from "react-icons/md";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setSidebarVisible } from "../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
-const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
+
+
+const Sidebar = ({ className }) => {
   const location = useLocation();
+  const sidebarVisible = useSelector((state) => state.settingsOptions.sidebarVisible);
+  const dispatch = useDispatch();
   
   // For demonstration: this variable is logged on manual route clicks.
   const a1 = "Route clicked!";
@@ -28,7 +35,7 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
     {
       name: "pen",
       path: "?#pen",
-      icon: <HiPencil />,
+      icon: <HiOutlinePencil />,
     },
     {
       name: "save",
@@ -43,7 +50,7 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
     {
       name: "settings",
       path: "?#settings",
-      icon: <TbAdjustmentsHorizontal />,
+      icon: <PiSlidersHorizontalBold />,
     },
     {
       name: "code",
@@ -77,12 +84,12 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
   const activeHash = location.hash; // For example, "#pen"
 
   return (
-    <div className={className + " md:min-w-24 md:max-w-24 w-full bg-secondary md:min-h-full md:max-h-full min-h-24 max-h-24 custom-rounded-lg flex md:flex-col flex-row gap-4 shadow-lg transition-all duration-300"}>
+    <div className={className + " md:min-w-24 md:max-w-24 w-full bg-secondary md:min-h-full md:max-h-full min-h-24 max-h-24 custom-rounded-lg flex md:flex-col flex-row gap-4 shadow-lg transition-all ease-out duration-500"}>
       <div className="w-[75%] md:w-full flex md:flex-col md:justify-start justify-between items-center md:gap-4 p-4 md:pr-4 pr-0 md:h-[80%] h-full grow">
         {/* Collapse/Expand button */}
         <span
           className="text-4xl flex justify-center items-center rounded w-16 h-16 p-2 cursor-pointer text-primary md:rotate-0 -rotate-90"
-          onClick={toggleSidebar}
+          onClick={() => dispatch(setSidebarVisible(!sidebarVisible))}
         >
           {sidebarVisible ? routes[0].icon : <TbLayoutSidebarRightCollapse />}
         </span>
@@ -100,7 +107,7 @@ const Sidebar = ({ sidebarVisible, toggleSidebar, className }) => {
               <span
                 className={`cursor-pointer text-4xl flex justify-center items-center w-16 h-16 p-2 ${
                   route.path.replace("?", "") === activeHash
-                    ? "bg-icon rounded-xl text-white"
+                    ? "bg-icon rounded-xl text-white transition-all ease-linear transition-discrete duration-200"
                     : "bg-transparent text-icon"
                 }`}
               >

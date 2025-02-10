@@ -1,57 +1,42 @@
-import React, { useState, useEffect } from "react";
+// ThemeBox.js
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FaMoon } from "react-icons/fa";
 import { TbSunMoon, TbSunset2, TbSun } from "react-icons/tb";
+import { setTheme } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
 const ThemeBox = () => {
-  // Initialize state with the value from localStorage or default to "light"
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const dispatch = useDispatch();
+  // Get theme from Redux state (from your resizeableOptions reducer)
+  const theme = useSelector((state) => state.settingsOptions.theme);
 
   const themeOptions = [
-    {
-      label: "Light",
-      value: "light",
-      icon: <TbSun />
-    },
-    {
-      label: "Dark",
-      value: "dark",
-      icon: <FaMoon />
-    },
-    {
-      label: "System",
-      value: "system",
-      icon: <TbSunMoon />
-    }
+    { label: "Light", value: "light", icon: <TbSun /> },
+    { label: "Dark", value: "dark", icon: <FaMoon /> },
+    { label: "System", value: "system", icon: <TbSunMoon /> }
   ];
 
   const handleThemeChange = (selectedTheme) => {
-    setTheme(selectedTheme);
-    localStorage.setItem("theme", selectedTheme);
+    dispatch(setTheme(selectedTheme));
   };
 
   useEffect(() => {
     const htmlElement = document.documentElement;
-    
     if (theme === "system") {
-      // Check the system preference for dark mode
+      // Apply system preference
       const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
       const systemTheme = darkThemeMq.matches ? "dark" : "light";
       htmlElement.setAttribute("data-theme", systemTheme);
 
-      // Listen for changes in the system theme
+      // Listen for changes to the system theme
       const handleChange = (e) => {
         htmlElement.setAttribute("data-theme", e.matches ? "dark" : "light");
       };
-
-      // Add event listener for changes
       darkThemeMq.addEventListener("change", handleChange);
 
-      // Cleanup the event listener when the effect is re-run or the component unmounts
-      return () => {
-        darkThemeMq.removeEventListener("change", handleChange);
-      };
+      return () => darkThemeMq.removeEventListener("change", handleChange);
     } else {
-      // For "light" or "dark", set the theme directly
+      // Directly apply the selected theme
       htmlElement.setAttribute("data-theme", theme);
     }
   }, [theme]);
@@ -69,11 +54,17 @@ const ThemeBox = () => {
           <div key={option.value} className="flex flex-col gap-4">
             <div
               onClick={() => handleThemeChange(option.value)}
-              className={`min-w-28 min-h-28 bg-content-hover border border-icon rounded-full overflow-hidden flex items-center justify-center inset-t-box-shadow cursor-pointer text-4xl ${theme === option.value ? "text-primary" : "text-secondary"}`}
+              className={`min-w-28 min-h-28 bg-content-hover border border-icon rounded-full overflow-hidden flex items-center justify-center inset-t-box-shadow cursor-pointer text-4xl ${
+                theme === option.value ? "text-primary" : "text-secondary"
+              }`}
             >
               {option.icon}
             </div>
-            <p className={`font-bold text-xl text-center uppercase ${theme === option.value ? "text-primary" : "text-secondary"}`}>
+            <p
+              className={`font-bold text-xl text-center uppercase ${
+                theme === option.value ? "text-primary" : "text-secondary"
+              }`}
+            >
               {option.label}
             </p>
           </div>

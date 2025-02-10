@@ -128,7 +128,7 @@ const FlexPropertiesManager = () => {
 
   return (
     <>
-      <div className="mb-4">
+      <div className="mb-4 transition-all ease-out duration-500">
         <EditTabListItem
           key="display"
           icon={<MdOutlineFormatAlignCenter className="text-primary w-8 h-8" />}

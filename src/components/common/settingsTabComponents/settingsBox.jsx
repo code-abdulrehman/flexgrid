@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { IoColorPaletteOutline } from "react-icons/io5";
 import { GrMultiple } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccentColor, setMultiSelect, accentColors } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
 const SettingsBox = () => {
   // Initialize from local storage or default to "turquoise"
-  const [accentColor, setAccentColor] = useState(() => {
-    return localStorage.getItem("accentColor") || "turquoise";
-  });
+  const dispatch = useDispatch();
+  const accentColor = useSelector((state) => state.settingsOptions.accentColor);
 
   // Multi Select toggle state
-  const [multiSelect, setMultiSelect] = useState(false);
+  const multipleSelection = useSelector((state) => state.settingsOptions.multipleSelection);
 
-  const colorOptions = ["turquoise", "orange", "blue", "green", "purple"];
+  const colorOptions = accentColors.map((color) => color.value);
 
   // Update the document's data-accent attribute when accentColor changes
   useEffect(() => {
@@ -20,13 +21,13 @@ const SettingsBox = () => {
   }, [accentColor]);
 
   const handleAccentColorChange = (color) => {
-    setAccentColor(color);
-    localStorage.setItem("accentColor", color); // Persist the selection
+      dispatch(setAccentColor(color)); 
   };
 
   const toggleMultiSelect = () => {
-    setMultiSelect((prev) => !prev);
+    dispatch( setMultiSelect(!multipleSelection));
   };
+
 
   return (
     <div className="flex flex-col items-start justify-center gap-4 custom-rounded-lg bg-content p-6 py-8">
@@ -54,7 +55,7 @@ const SettingsBox = () => {
         </span>
       </div>
 
-      <div className="bg-divider w-full h-1"></div>
+      <div className="bg-divider w-full h-[2px]"></div>
 
       {/* Multi Select Toggle Section */}
       <div className="flex items-center justify-between w-full gap-4 h-12">
@@ -71,7 +72,7 @@ const SettingsBox = () => {
               type="checkbox"
               id="toggleMultiSelect"
               className="sr-only peer"
-              checked={multiSelect}
+              checked={multipleSelection}
               onChange={toggleMultiSelect}
             />
             {/* Toggle Track */}

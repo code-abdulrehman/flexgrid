@@ -37,7 +37,7 @@ const EditTabListItem = ({
   return (
     <div
       data-inp-type={inpType}
-      className={`flex items-center justify-between gap-2 bg-content text-secondary custom-rounded-lg p-5 ${className}`}
+      className={`flex items-center justify-between gap-2 bg-content text-secondary custom-rounded-lg p-5 transition-all ease-out duration-500 ${className}`}
     >
       <div className="flex items-center gap-4 w-[90%] text-ellipsis whitespace-nowrap">
         <div className="min-w-24 min-h-24 bg-content-hover border border-icon custom-rounded-lg overflow-hidden flex items-center justify-center inset-t-box-shadow">
