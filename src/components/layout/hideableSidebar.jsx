@@ -9,7 +9,8 @@ import LayoutItem from "../common/hideableSidebarTabComponents/layoutsTabCompone
 import { FaColumns } from "react-icons/fa";
 import ThemeBox from "../common/hideableSidebarTabComponents/settingsTabComponents/themeBox";
 import SettingsBox from "../common/hideableSidebarTabComponents/settingsTabComponents/settingsBox";
-import SizingBox from "../common/hideableSidebarTabComponents/settingsTabComponents/sizingBox";
+import ContainerSettings from "../common/hideableSidebarTabComponents/settingsTabComponents/containerSettings";
+import ItemsSettings from "../common/hideableSidebarTabComponents/settingsTabComponents/itemsSettings";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSettings } from "../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
@@ -92,7 +93,8 @@ const HideableSidebar = ({ className }) => {
               <div className="flex flex-col gap-6">
                 <ThemeBox />
                 <SettingsBox />
-                <SizingBox />
+                <ContainerSettings />
+                <ItemsSettings />
               </div>
 
               <button className="bg-danger text-contrast px-4 py-2 rounded-lg w-52 font-semibold text-center mt-4 transition-all ease-out duration-500" onClick={() => dispatch(resetSettings())}>Reset All</button>

@@ -7,7 +7,7 @@ import { toggleOption, setSizeShow, setResizeableOptions } from "../../../../lib
 import { TbTextResize } from "react-icons/tb";
 
 
-const SizingBox = () => {
+const ContainerSettings = () => {
   const dispatch = useDispatch();
   const resizeableOptions = useSelector((state) => state.settingsOptions.resizeableOptions);
   const sizeShow = useSelector((state) => state.settingsOptions.sizeShow);
@@ -36,7 +36,7 @@ const SizingBox = () => {
         <span className="text-secondary text-2xl flex items-center justify-start w-1/2 gap-2">
           <LuUnfoldHorizontal className="text-secondary text-4xl" />
           <p className="text-secondary font-bold text-2xl text-start uppercase text-nowrap">
-            Screen Resizeable
+            Container
           </p>
         </span>
       </div>
@@ -94,4 +94,4 @@ const SizingBox = () => {
   );
 };
 
-export default SizingBox;
+export default ContainerSettings;

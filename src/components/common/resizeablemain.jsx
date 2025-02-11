@@ -100,7 +100,7 @@ const ResizableMain = ({ children, className }) => {
           height: dimensions.height,
           maxWidth: "100%",
           maxHeight: "100%",
-          minWidth: "320px",
+          minWidth: "380px",
           minHeight: "250px",
           position: "absolute",
           top: 0,

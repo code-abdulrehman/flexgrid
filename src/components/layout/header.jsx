@@ -37,12 +37,12 @@ const Header = () => {
                     <Link to="/">
                         <span className="flex flex-row items-center gap-2 w-full">
                             <span className="flex flex-row items-center w-[60px] justify-center">
-                                <RiLayoutMasonryFill className="text-6xl text-accent rotate-90" />
+                                <RiLayoutMasonryFill className="text-5xl text-accent rotate-90" />
                             </span>
                             <h1 className="text-4xl font-bold w-40 text-nowrap text-primary">Flex Grid</h1>
                         </span>
                     </Link>
-                    <div className="h-10 w-1 bg-divider inline-block"></div>
+                    <div className="h-10 w-[2px] bg-divider inline-block"></div>
                     <div className="flex flex-row items-center gap-2 w-full ml-4">
                         <Link to={isFlex ? "/flex#pen" : "/grid#pen"} className="w-full font-bold" onClick={toggleFlex}>
                             <span className="bg-secondary hover:text-primary px-4 py-2 bordr-2 borer-primary rounded-full w-36 h-12 capitalize flex flex-row items-center justify-center gap-2">

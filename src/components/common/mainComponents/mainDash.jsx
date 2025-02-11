@@ -31,14 +31,14 @@ const MainDash = () => {
             icon: <MdOutlineReplay />
         },
         {
-            id: "redo",
-            name: "redo",
-            icon: <IoMdRedo />
-        },
-        {
             id: "undo",
             name: "undo",
             icon: <IoMdUndo />
+        },
+        {
+            id: "redo",
+            name: "redo",
+            icon: <IoMdRedo />
         },
         {
             id: "grid",
@@ -50,11 +50,16 @@ const MainDash = () => {
  
    return (
       <div className="flex gap-4 my-6 w-full justify-center items-center">
-         <div className="flex items-center justify-between min-w-1/4 custom-rounded-lg bg-primary h-24 p-4 gap-4 shadow-lg transition-all duration-300 ease-in-out">
+         <div className="flex items-center justify-between w-auto  md:min-w-1/4 md:max-w-1/4 custom-rounded-lg bg-primary h-24 p-6 gap-4 shadow-lg transition-all duration-300 ease-in-out">
             {displayItems.map((item) => (
+                <>
                <div key={item.id} className={`flex items-center justify-center rounded-2xl p-2 cursor-pointer text-4xl w-16 h-16  active:bg-icon active:text-white ${selectedItem === item.id ? "bg-icon text-white" : ""}`} onClick={() => setSelectedItem(item.id)}>
                   {item.icon}
                </div>
+               {item.index === (item.index+1 %2 )&& 
+                <div className="h-10 w-[2px] bg-divider inline-block mx-1"></div>
+                }
+               </>
             ))}
          </div>
       </div>

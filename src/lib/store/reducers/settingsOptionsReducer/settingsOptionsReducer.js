@@ -10,7 +10,12 @@ const ACTION_TYPES = {
     SET_SIZE_SHOW: "SET_SIZE_SHOW",
     SET_MULTI_SELECT: "SET_MULTI_SELECT",
     SET_RESIZEABLE_OPTIONS: "SET_RESIZEABLE_OPTIONS",
+    SET_SELECTED_ITEM: "SET_SELECTED_ITEM",
+    INITIAL_TOTAL_ITEMS: "INITIAL_TOTAL_ITEMS",
     RESET_SETTINGS: "RESET_SETTINGS",
+    SELECTED_ITEM: "SELECTED_ITEM",
+    SHOW_ITEMS_NAME: "SHOW_ITEMS_NAME",
+    SET_SHOW_NAME: "SET_SHOW_NAME",
   };
   
   // Initial state
@@ -20,7 +25,10 @@ const ACTION_TYPES = {
     multipleSelection: true,
     accentColor: "turquoise",
     theme: "system",
+    showItemsName: true,
     sidebarVisible: true,
+    selectedItem: [0],
+    initialTotalItems: 4,
   });
   
   // Utility function to update state dynamically
@@ -62,6 +70,16 @@ const ACTION_TYPES = {
         localStorage.removeItem("settingsOptions");
         return initialState;
       },
+      [ACTION_TYPES.SET_SELECTED_ITEM]: () =>
+        handleStateUpdate(state, "selectedItem", action.payload),
+      [ACTION_TYPES.INITIAL_TOTAL_ITEMS]: () =>
+        handleStateUpdate(state, "initialTotalItems", action.payload),
+      [ACTION_TYPES.SELECTED_ITEM]: () =>
+        handleStateUpdate(state, "selectedItem", action.payload),
+      [ACTION_TYPES.SHOW_ITEMS_NAME]: () =>
+        handleStateUpdate(state, "showItemsName", action.payload),
+      [ACTION_TYPES.SET_SHOW_NAME]: () =>
+        handleStateUpdate(state, "showItemsName", action.payload),
     };
   
     return handlers[action.type] ? handlers[action.type]() : state;
@@ -78,6 +96,11 @@ const ACTION_TYPES = {
   export const setSizeShow = createAction(ACTION_TYPES.SET_SIZE_SHOW);
   export const setMultiSelect = createAction(ACTION_TYPES.SET_MULTI_SELECT);
   export const setResizeableOptions = createAction(ACTION_TYPES.SET_RESIZEABLE_OPTIONS);
+  export const setSelectedItem = createAction(ACTION_TYPES.SET_SELECTED_ITEM);
+  export const initialTotalItems = createAction(ACTION_TYPES.INITIAL_TOTAL_ITEMS);
+  export const selectedItem = createAction(ACTION_TYPES.SELECTED_ITEM);
+  export const showItemsName = createAction(ACTION_TYPES.SHOW_ITEMS_NAME);
+  export const setShowName = createAction(ACTION_TYPES.SET_SHOW_NAME);
   export const resetSettings = () => {
     localStorage.removeItem("settingsOptions");
     return { type: ACTION_TYPES.RESET_SETTINGS };

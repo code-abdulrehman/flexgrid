@@ -1,28 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import Item from "./item";
-const Container = ({display="flex", gap="10", className}) => {
-   const displayClass = display === "flex" ? "flex" : display === "grid" ? "grid" : display === "block" ? "block" : "";
+import { useDispatch, useSelector } from "react-redux";  
+import { setSelectedItem } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
-   const items = [
-      {
-         name: "Item 1",
-         icon: "🔍",
-         children: <div>Item 1</div>,
-         selected: true
-      },
-      {
-         name: "Item 2",
-         icon: "🔍",
-         children: <div>Item 2</div>
+const Container = ({ display = "flex", gap = "10", className = "" }) => {
+  const dispatch = useDispatch();
+  const totalItems = useSelector(state => state.settingsOptions.initialTotalItems) || 4;
+  const multipleSelection = useSelector(state => state.settingsOptions.multipleSelection);
+
+  // Always use an array to store selected item(s). 
+  // By default, select the first item (index 0).
+  const [selectedItemState, setSelectedItemState] = useState([0]);
+
+  const handleItemClick = (index) => {
+    console.log("Item clicked:", index);
+    if (multipleSelection) {
+      // Toggle the selection of the clicked item
+      if (selectedItemState.includes(index)) {
+        const newSelected = selectedItemState.filter(i => i !== index);
+        setSelectedItemState(newSelected);
+        dispatch(setSelectedItem(newSelected));
+      } else {
+        const newSelected = [...selectedItemState, index];
+        setSelectedItemState(newSelected);
+        dispatch(setSelectedItem(newSelected));
       }
-   ]
-   return (
-   <div className={`${displayClass} gap-${gap} ${className}`}>
+    } else {
+      // In single-selection mode, we always store the selected item in an array
+      setSelectedItemState([index]);
+      dispatch(setSelectedItem(index));
+    }
+  };
+
+  const items = Array.from({ length: totalItems }, (_, index) => ({
+    name: index + 1,
+    icon: "🔍",
+  }));
+
+  const containerStyle = {
+    display: display,   // "flex", "grid", or "block"
+    gap: `${gap}px`,
+  };
+
+  return (
+    <div style={containerStyle} className={className}>
       {items.map((item, index) => (
-         <Item name={item.name} icon={item.icon} index={index} selected={item.selected} />
+        <Item 
+          key={index}
+          name={item.name} 
+          index={index} 
+          selected={selectedItemState.includes(index)} 
+          onClick={() => handleItemClick(index)}
+          icon={item.icon}
+        />
       ))}
-   </div>
-   )
+    </div>
+  );
 };
 
 export default Container;
