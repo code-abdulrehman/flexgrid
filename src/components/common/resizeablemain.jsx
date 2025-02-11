@@ -6,7 +6,7 @@ const ResizableMain = ({ children, className }) => {
   const resizeableOptions = useSelector((state) => state.settingsOptions.resizeableOptions);
   const sizeShow = useSelector((state) => state.settingsOptions.sizeShow);
 
-  const initialSidebarVisible = localStorage.getItem("sidebarVisible") === "true";
+  const sidebarVisible = useSelector((state) => state.settingsOptions.sidebarVisible);
   const [dimensions, setDimensions] = useState({ width: "100%", height: "100%" });
   const containerRef = useRef(null);
 
@@ -65,8 +65,8 @@ const ResizableMain = ({ children, className }) => {
   }, []);
 
   useEffect(() => {
-    setDimensions({ width: initialSidebarVisible ? "100%" : "100%", height: "100%" });
-  }, [initialSidebarVisible]);
+    setDimensions({ width: sidebarVisible ? "100%" : "100%", height: "100%" });
+  }, [sidebarVisible]);
 
   const startHorizontalResize = (e) => {
     isResizingHorizontal.current = true;

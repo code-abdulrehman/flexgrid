@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LuUnfoldHorizontal, LuMoveHorizontal, LuMoveVertical } from "react-icons/lu";
 import { BsTextareaResize } from "react-icons/bs";
-import { toggleOption, setSizeShow, setResizeableOptions } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
+import { toggleOption, setSizeShow, setResizeableOptions } from "../../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 import { TbTextResize } from "react-icons/tb";
 
 

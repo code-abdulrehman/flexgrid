@@ -3,7 +3,8 @@ import { IoColorPaletteOutline } from "react-icons/io5";
 import { GrMultiple } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { setAccentColor, setMultiSelect, accentColors } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
+import { setAccentColor, setMultiSelect, accentColors } from "../../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
+
 
 const SettingsBox = () => {
   // Initialize from local storage or default to "turquoise"

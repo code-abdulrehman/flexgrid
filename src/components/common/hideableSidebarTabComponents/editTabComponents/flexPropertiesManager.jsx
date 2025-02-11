@@ -28,7 +28,7 @@ const FlexPropertiesManager = () => {
   const flexProperties = [
     {
       key: "flexDirection",
-      icon: <MdOutlineSubdirectoryArrowRight className="text-primary w-8 h-8" />,
+      icon: <MdOutlineSubdirectoryArrowRight className="text-primary " />,
       title: "Flex Direction",
       inpType: "select",
       inpSelect: true,
@@ -42,7 +42,7 @@ const FlexPropertiesManager = () => {
     },
     {
       key: "flexWrap",
-      icon: <TbTextWrap className="text-primary w-8 h-8" />,
+      icon: <TbTextWrap className="text-primary " />,
       title: "Flex Wrap",
       inpType: "select",
       inpSelect: true,
@@ -55,7 +55,7 @@ const FlexPropertiesManager = () => {
     },
     {
       key: "justifyContent",
-      icon: <LuAlignHorizontalJustifyStart className="text-primary w-8 h-8" />,
+      icon: <LuAlignHorizontalJustifyStart className="text-primary " />,
       title: "Justify Content",
       inpType: "select",
       inpSelect: true,
@@ -71,7 +71,7 @@ const FlexPropertiesManager = () => {
     },
     {
       key: "alignItems",
-      icon: <LuAlignVerticalJustifyEnd className="text-primary w-8 h-8" />,
+      icon: <LuAlignVerticalJustifyEnd className="text-primary " />,
       title: "Align Items",
       inpType: "select",
       inpSelect: true,
@@ -86,7 +86,7 @@ const FlexPropertiesManager = () => {
     },
     {
       key: "alignContent",
-      icon: <LuAlignVerticalJustifyCenter className="text-primary w-8 h-8" />,
+      icon: <LuAlignVerticalJustifyCenter className="text-primary " />,
       title: "Align Content",
       inpType: "select",
       inpSelect: true,
@@ -102,7 +102,7 @@ const FlexPropertiesManager = () => {
     },
     {
       key: "gap",
-      icon: <CgArrowAlignH className="text-primary w-8 h-8" />,
+      icon: <CgArrowAlignH className="text-primary " />,
       title: "Gap",
       inpType: "number",
       inpSelect: true,
@@ -131,7 +131,7 @@ const FlexPropertiesManager = () => {
       <div className="mb-4 transition-all ease-out duration-500">
         <EditTabListItem
           key="display"
-          icon={<MdOutlineFormatAlignCenter className="text-primary w-8 h-8" />}
+          icon={<MdOutlineFormatAlignCenter className="text-primary " />}
           title="Display Type"
           inpSelect={true}
           inpType="select"

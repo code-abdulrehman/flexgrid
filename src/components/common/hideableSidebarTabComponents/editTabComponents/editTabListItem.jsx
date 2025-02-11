@@ -1,9 +1,9 @@
 import React from "react";
 import { HiQuestionMarkCircle } from "react-icons/hi";
 import { FaInfo } from "react-icons/fa6";
-import CustomDropdown from "../customDropdown";
-import CustomInput from "../customInput";
-import CustomTooltip from "../customTooltip";
+import CustomDropdown from "../../customDropdown";
+import CustomInput from "../../customInput";
+import CustomTooltip from "../../customTooltip";
 import { useLocation } from "react-router-dom";
 
 const EditTabListItem = ({
@@ -37,14 +37,14 @@ const EditTabListItem = ({
   return (
     <div
       data-inp-type={inpType}
-      className={`flex items-center justify-between gap-2 bg-content text-secondary custom-rounded-lg p-5 transition-all ease-out duration-500 ${className}`}
+      className={`flex items-center justify-between gap-2 bg-content text-secondary custom-rounded-lg p-3 transition-all ease-out duration-500 ${className}`}
     >
       <div className="flex items-center gap-4 w-[90%] text-ellipsis whitespace-nowrap">
-        <div className="min-w-24 min-h-24 bg-content-hover border border-icon custom-rounded-lg overflow-hidden flex items-center justify-center inset-t-box-shadow">
+        <div className="min-w-20 min-h-20 bg-content-hover border border-icon rounded-2xl text-2xl flex items-center justify-center inset-t-box-shadow">
           {icon || <HiQuestionMarkCircle className="w-12 h-12 text-secondary" />}
         </div>
         <div className="flex flex-col gap-2">
-          <p className="text-[1.6rem] ml-2 text-primary font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+          <p className="text-2xl ml-2 text-primary font-bold overflow-hidden text-ellipsis whitespace-nowrap">
             {title}
           </p>
           <div className="flex flex-row gap-2">

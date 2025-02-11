@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaMoon } from "react-icons/fa";
 import { TbSunMoon, TbSunset2, TbSun } from "react-icons/tb";
-import { setTheme } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
+import { setTheme } from "../../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
 const ThemeBox = () => {
   const dispatch = useDispatch();

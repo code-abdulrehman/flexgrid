@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import EditTabListItem from "../common/editTabComponents/editTabListItem";
-import FlexPropertiesManager from "../common/editTabComponents/flexPropertiesManager";
-import GridPropertiesManager from "../common/editTabComponents/gridPropertiesManager";
-import SaveInput from "../common/saveTabComponents/saveInput";
-import SavedItem from "../common/saveTabComponents/savedItem";
-import LayoutItem from "../common/layoutsTabComponents/layoutItem";
+import EditTabListItem from "../common/hideableSidebarTabComponents/editTabComponents/editTabListItem"; 
+import FlexPropertiesManager from "../common/hideableSidebarTabComponents/editTabComponents/flexPropertiesManager";
+import GridPropertiesManager from "../common/hideableSidebarTabComponents/editTabComponents/gridPropertiesManager";
+import SaveInput from "../common/hideableSidebarTabComponents/saveTabComponents/saveInput";
+import SavedItem from "../common/hideableSidebarTabComponents/saveTabComponents/savedItem";
+import LayoutItem from "../common/hideableSidebarTabComponents/layoutsTabComponents/layoutItem";
 import { FaColumns } from "react-icons/fa";
-import ThemeBox from "../common/settingsTabComponents/themeBox";
-import SettingsBox from "../common/settingsTabComponents/settingsBox";
-import SizingBox from "../common/settingsTabComponents/sizingBox";
+import ThemeBox from "../common/hideableSidebarTabComponents/settingsTabComponents/themeBox";
+import SettingsBox from "../common/hideableSidebarTabComponents/settingsTabComponents/settingsBox";
+import SizingBox from "../common/hideableSidebarTabComponents/settingsTabComponents/sizingBox";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSettings } from "../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
-
 
 const HideableSidebar = ({ className }) => {
   const sidebarVisible = useSelector((state) => state.settingsOptions.sidebarVisible);
@@ -32,7 +31,7 @@ const HideableSidebar = ({ className }) => {
   }
 
   return (
-    <div className={`${className} md:min-w-[38.5rem] md:max-w-[42.5rem] w-full bg-secondary h-full custom-rounded-lg transition-all ease-out duration-500 shadow-lg p-6 overflow-y-auto ${sidebarVisible ? "block" : "hidden"}`}>
+    <div className={`${className} md:min-w-[38.5rem] md:max-w-[42.5rem] w-full bg-secondary h-full custom-rounded-lg transition-all ease-out duration-500 shadow-lg p-3 overflow-y-auto ${sidebarVisible ? "block" : "hidden"}`}>
 
       <div className="p-4">
         {currentLocation === "#pen" && (
