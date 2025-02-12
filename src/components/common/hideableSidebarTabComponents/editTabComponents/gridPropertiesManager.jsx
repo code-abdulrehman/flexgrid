@@ -260,7 +260,7 @@ const GridPropertiesManager = () => {
   return (
     <>
       {/* Display Type Selector */}
-      <div className="mb-4 transition-all ease-out duration-500">
+      <div className="mb-2 transition-all ease-out duration-500">
         <EditTabListItem
           key="display"
           icon={<MdOutlineFormatAlignCenter className="text-primary w-8 h-8" />}
@@ -278,7 +278,7 @@ const GridPropertiesManager = () => {
       </div>
 
       {displayType === "grid" ? (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
           {/* Advanced dropdown for Grid Template Columns */}
           <EditTabListItem
             key="gridTemplateColumns"

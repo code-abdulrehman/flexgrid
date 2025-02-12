@@ -56,9 +56,9 @@ const MainDash = () => {
                <div key={item.id} className={`flex items-center justify-center rounded-2xl p-2 cursor-pointer text-4xl w-16 h-16  active:bg-icon active:text-white ${selectedItem === item.id ? "bg-icon text-white" : ""}`} onClick={() => setSelectedItem(item.id)}>
                   {item.icon}
                </div>
-               {item.index === (item.index+1 %2 )&& 
+               {/* {item.index === (item.index+1 %2 )&& 
                 <div className="h-10 w-[2px] bg-divider inline-block mx-1"></div>
-                }
+                } */}
                </>
             ))}
          </div>

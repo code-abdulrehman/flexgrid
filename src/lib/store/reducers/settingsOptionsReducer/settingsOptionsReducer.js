@@ -28,7 +28,7 @@ const ACTION_TYPES = {
     showItemsName: true,
     sidebarVisible: true,
     selectedItem: [0],
-    initialTotalItems: 4,
+    initialTotalItems: 14,
   });
   
   // Utility function to update state dynamically

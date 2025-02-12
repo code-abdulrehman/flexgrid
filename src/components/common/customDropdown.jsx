@@ -21,6 +21,8 @@ const CustomDropdown = ({
   addNewWith = "Option",
   NumberInputComponent,
   SingleDropdownComponent,
+  subOptionsAllow = true,
+  optionsWrap = false,
   ...rest
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -144,13 +146,13 @@ const CustomDropdown = ({
         </div>
         {isOpen && (
           <ul
-            className={`${optionsBoxClass} absolute top-full left-0 bg-primary rounded-2xl shadow-lg z-10 mt-1 border-2 p-3 border-icon transition-all duration-300 ease-in-out`}
+            className={`${optionsBoxClass} absolute top-full left-0 bg-primary rounded-2xl shadow-lg z-10 mt-1 border-2 p-3 border-icon transition-all duration-300 ease-in-out flex ${optionsWrap ? "flex-wrap gap-2 flex-row w-32 justify-between" : "flex-col"}`}
           >
             {options.map((option, idx) => (
               <li
                 key={idx}
-                className={`p-2 cursor-pointer hover:bg-secondary hover:text-content text-start overflow-hidden text-ellipsis whitespace-nowrap font-semibold ${optionClassName} ${
-                  option.value === value ? "bg-secondary rounded-xl text-primary" : ""
+                className={`p-2 cursor-pointer hover:bg-secondary hover:text-content text-start overflow-hidden text-ellipsis whitespace-nowrap font-semibold  ${optionClassName} ${
+                  option.value === value ? " bg-content-hover shadow-md rounded-xl text-primary w-full" : ""
                 }`}
                 onClick={() => handleStandardChange(option)}
               >
@@ -164,10 +166,30 @@ const CustomDropdown = ({
   }
 
   // Render Advanced Mode.
-  const isEmpty = gridOptions.every((opt) => !opt.numInput || opt.numInput === "");
-  const advancedDisplayText = !isEmpty
-    ? gridOptions.map((opt) => `${opt.numInput}${opt.subOption}`).join(" ")
-    : placeholder;
+// Render Advanced Mode.
+const isEmpty = gridOptions.every((opt) => !opt.numInput || opt.numInput === "");
+
+// allNumValues is true if every option has a valid numInput and either no subOption or an empty subOption.
+const allNumValues = gridOptions.every(
+  (opt) => opt.numInput !== "" && (!opt.subOption || opt.subOption === "")
+);
+
+// If only number inputs are provided, join the numInput values with a slash.
+const slashValue = gridOptions
+  .map((opt) => `${opt.numInput}`)
+  .join("/ ");
+
+// Otherwise, if there are subOptions, join each pair (number + subOption) with a space.
+const gridValue = gridOptions
+  .map((opt) => `${opt.numInput}${opt.subOption}`)
+  .join(" ");
+
+// Choose which text to display.
+// If the gridOptions are not empty, then if every option is only a number use slashValue;
+// otherwise use gridValue. If gridOptions are empty, show the placeholder.
+const advancedDisplayText = !isEmpty
+  ? (allNumValues ? slashValue : gridValue)
+  : placeholder;
 
   return (
     <div
@@ -176,7 +198,7 @@ const CustomDropdown = ({
       ref={dropdownRef}
     >
       <div
-        className={`bg-secondary text-secondary rounded-2xl p-2 cursor-pointer text-start text-xl font-semibold flex items-center justify-between w-fit ${dropdownButtonClass}`}
+        className={`bg-secondary text-secondary rounded-2xl p-2 cursor-pointer text-start text-xl font-semibold flex gap-2 items-center justify-between w-fit ${dropdownButtonClass}`}
         onClick={toggleDropdown}
       >
         {advancedDisplayText}
@@ -189,10 +211,10 @@ const CustomDropdown = ({
               key={option.value}
               className="flex items-center justify-between gap-2 p-1 border-b border-icon last:border-0 hover:bg-secondary cursor-pointer"
             >
-              <span className="text-primary font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-xl w-1/4">
+              <span className="text-primary font-semibold overflow-hidden text-ellipsis whitespace-nowrap text-xl w-2/3">
                 {option.label}
               </span>
-              <div className="flex items-center justify-end gap-2 w-1/2 text-2xl">
+              <div className="flex items-center justify-end gap-2 w-1/3 text-2xl">
                 {NumberInputComponent ? (
                   <NumberInputComponent
                     value={option.numInput || 1}
@@ -223,8 +245,9 @@ const CustomDropdown = ({
                     chevronClass="text-sm ml-1"
                   />
                 ) : (
-                  <CustomDropdown
-                    nested={true}
+                  subOptionsAllow && (
+                    <CustomDropdown
+                      nested={true}
                     options={option.subOptions}
                     value={option.subOption}
                     onChange={({ newValue }) => updateGridOptionSubOption(index, newValue)}
@@ -232,7 +255,8 @@ const CustomDropdown = ({
                     dropdownButtonClass="p-1 w-16"
                     optionClassName="text-2xl text-primary w-12 p-1"
                     chevronClass="text-sm ml-1"
-                  />
+                    />
+                  )
                 )}
                 {allowCross && (
                   <button

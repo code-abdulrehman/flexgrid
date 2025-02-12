@@ -128,7 +128,7 @@ const FlexPropertiesManager = () => {
 
   return (
     <>
-      <div className="mb-4 transition-all ease-out duration-500">
+      <div className="mb-2 transition-all ease-out duration-500">
         <EditTabListItem
           key="display"
           icon={<MdOutlineFormatAlignCenter className="text-primary " />}
@@ -144,7 +144,7 @@ const FlexPropertiesManager = () => {
         />
       </div>
       {displayType === "flex" ? (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
           {flexProperties.map((property) => (
             <EditTabListItem
               key={property.key}

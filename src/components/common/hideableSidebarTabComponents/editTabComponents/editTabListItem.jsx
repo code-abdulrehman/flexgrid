@@ -35,6 +35,7 @@ const EditTabListItem = ({
   };
 
   return (
+    <>
     <div
       data-inp-type={inpType}
       className={`flex items-center justify-between gap-2 bg-content text-secondary custom-rounded-lg p-3 transition-all ease-out duration-500 ${className}`}
@@ -84,6 +85,8 @@ const EditTabListItem = ({
         <CustomTooltip tooltipText={`Defines the layout type, such as ${location.pathname === "/flex" ? "flex" : "grid"} or block.`} className="w-16 h-16 flex items-center justify-center bg-secondary rounded-full inset-b-box-shadow" />
       </div>
     </div>
+    {/* advanced opend dropdown */}
+    </>
   );
 };
 

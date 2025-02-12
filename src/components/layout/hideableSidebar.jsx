@@ -13,7 +13,7 @@ import ContainerSettings from "../common/hideableSidebarTabComponents/settingsTa
 import ItemsSettings from "../common/hideableSidebarTabComponents/settingsTabComponents/itemsSettings";
 import { useSelector, useDispatch } from "react-redux";
 import { resetSettings } from "../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
-
+import ItemTabComponent from "../common/hideableSidebarTabComponents/editTabComponents/itemTabComponents/itemTabComponent";
 const HideableSidebar = ({ className }) => {
   const sidebarVisible = useSelector((state) => state.settingsOptions.sidebarVisible);
   const dispatch = useDispatch();
@@ -57,7 +57,8 @@ const HideableSidebar = ({ className }) => {
 
             {currentTab === "items" && (
               <div className="flex flex-col gap-2 mt-6 transition-all ease-out duration-500">
-                <EditTabListItem selectOrder="2" inpOrder="1" inpSelect={true} inpNum={false} />
+                {/* <EditTabListItem selectOrder="2" inpOrder="1" inpSelect={true} inpNum={false} /> */}
+                <ItemTabComponent />
               </div>
             )}
 
