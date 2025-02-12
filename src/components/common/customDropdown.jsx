@@ -177,7 +177,7 @@ const allNumValues = gridOptions.every(
 // If only number inputs are provided, join the numInput values with a slash.
 const slashValue = gridOptions
   .map((opt) => `${opt.numInput}`)
-  .join("/ ");
+  .join(" / ");
 
 // Otherwise, if there are subOptions, join each pair (number + subOption) with a space.
 const gridValue = gridOptions
