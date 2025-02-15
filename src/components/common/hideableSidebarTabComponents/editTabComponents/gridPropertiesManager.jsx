@@ -9,14 +9,14 @@ import {
   MdAlignVerticalCenter,
   MdGridOn,
 } from "react-icons/md";
-import { CgArrowAlignH } from "react-icons/cg";
+import { CgArrowAlignH, CgScrollV } from "react-icons/cg";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 const GridPropertiesManager = () => {
   // State for display type
   const [displayType, setDisplayType] = useState("grid");
 
-  // Advanced dropdown states (initialized as empty strings so that rendered values are strings)
+  // Advanced dropdown states
   const [gridTemplateColumnsValue, setGridTemplateColumnsValue] = useState("");
   const [gridTemplateRowsValue, setGridTemplateRowsValue] = useState("");
   const [gapValue, setGapValue] = useState("");
@@ -30,6 +30,7 @@ const GridPropertiesManager = () => {
     gridAutoColumns: "auto",
     gridAutoRows: "auto",
     gridAutoFlow: "row",
+    overflow: "auto",
   });
 
   // --- Options for Advanced Dropdowns ---
@@ -206,9 +207,9 @@ const GridPropertiesManager = () => {
       selectValue: simpleGridSettings.gridAutoColumns,
       options: [
         { label: "auto", value: "auto" },
-        { label: "min-content", value: "min-content" },
-        { label: "max-content", value: "max-content" },
-        { label: "1fr", value: "1fr" },
+        { label: "min-content", value: "min" },
+        { label: "max-content", value: "max" },
+        { label: "1fr", value: "fr" },
       ],
       nested: true,
     },
@@ -221,9 +222,9 @@ const GridPropertiesManager = () => {
       selectValue: simpleGridSettings.gridAutoRows,
       options: [
         { label: "auto", value: "auto" },
-        { label: "min-content", value: "min-content" },
-        { label: "max-content", value: "max-content" },
-        { label: "1fr", value: "1fr" },
+        { label: "min-content", value: "min" },
+        { label: "max-content", value: "max" },
+        { label: "1fr", value: "fr" },
       ],
       nested: true,
     },
@@ -243,6 +244,23 @@ const GridPropertiesManager = () => {
       ],
       nested: true,
     },
+    {
+      key: "overflow",
+      icon: <CgScrollV className="text-primary" />,
+      title: "Overflow",
+      inpType: "select",
+      inpSelect: true,
+      selectValue: simpleGridSettings.overflow,
+      options: [
+        { label: "visible", value: "visible" },
+        { label: "hidden", value: "hidden" },
+        { label: "scroll", value: "scroll" },
+        { label: "clip", value: "clip" },
+        { label: "auto", value: "auto" },
+        { label: "x-auto", value: "x-auto" },
+        { label: "y-auto", value: "y-auto" },
+      ],
+    },
   ];
 
   const handleDisplayChange = (newValue) => {
@@ -254,7 +272,90 @@ const GridPropertiesManager = () => {
       ...prev,
       [key]: newValue,
     }));
-    // console.log(`${key} changed to:`, newValue);
+  };
+
+  // Helper to generate original CSS output from state
+  const generateCSS = () => {
+    let css = `display: ${displayType};\n`;
+    if (displayType === "grid") {
+      if (gridTemplateColumnsValue)
+        css += `grid-template-columns: ${gridTemplateColumnsValue};\n`;
+      if (gridTemplateRowsValue)
+        css += `grid-template-rows: ${gridTemplateRowsValue};\n`;
+      if (gapValue) css += `gap: ${gapValue};\n`;
+
+      // Convert simple grid settings (camelCase to kebab-case)
+      Object.entries(simpleGridSettings).forEach(([key, value]) => {
+        const kebabKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+        css += `${kebabKey}: ${value};\n`;
+      });
+    }
+    return css;
+  };
+
+  // Helper to generate Tailwind CSS classes based on state.
+  // Note: This mapping is basic and assumes the values follow a certain format.
+  const generateTailwindClasses = () => {
+    let classes = "";
+    if (displayType === "grid") {
+      classes += "grid ";
+
+      // Map grid-template columns if formatted as "col-X"
+      if (gridTemplateColumnsValue) {
+        const match = gridTemplateColumnsValue.match(/col-(\d+)/);
+        if (match) {
+          classes += `grid-cols-${match[1]} `;
+        }
+      }
+
+      // Map grid-template rows if formatted as "row-X"
+      if (gridTemplateRowsValue) {
+        const match = gridTemplateRowsValue.match(/row-(\d+)/);
+        if (match) {
+          classes += `grid-rows-${match[1]} `;
+        }
+      }
+
+      // Map gap value; using Tailwind’s arbitrary value syntax if needed.
+      if (gapValue) {
+        classes += `gap-[${gapValue}] `;
+      }
+
+      // Map simple grid settings:
+      if (simpleGridSettings.justifyItems)
+        classes += `justify-items-${simpleGridSettings.justifyItems} `;
+      if (simpleGridSettings.alignItems)
+        classes += `items-${simpleGridSettings.alignItems} `;
+      if (simpleGridSettings.justifyContent)
+        classes += `justify-${simpleGridSettings.justifyContent} `;
+      if (simpleGridSettings.alignContent)
+        classes += `content-${simpleGridSettings.alignContent} `;
+
+      if (simpleGridSettings.gridAutoColumns)
+        classes += `auto-cols-${simpleGridSettings.gridAutoColumns} `;
+      if (simpleGridSettings.gridAutoRows)
+        classes += `auto-rows-${simpleGridSettings.gridAutoRows} `;
+
+
+      if (simpleGridSettings.gridAutoFlow) {
+        const flow = simpleGridSettings.gridAutoFlow;
+        if (flow === "row") {
+          classes += "grid-flow-row ";
+        } else if (flow === "column") {
+          classes += "grid-flow-col ";
+        } else if (flow === "row dense") {
+          classes += "grid-flow-row-dense ";
+        } else if (flow === "column dense") {
+          classes += "grid-flow-col-dense ";
+        }
+      }
+
+      if (simpleGridSettings.overflow)
+        classes += `${(simpleGridSettings.overflow === "x-auto" ? "overflow-x" : simpleGridSettings.overflow === "y-auto" ? "overflow-y" : "overflow")}: ${(simpleGridSettings.overflow === "x-auto" || simpleGridSettings.overflow === "y-auto") ? "auto" : simpleGridSettings.overflow};\n`;
+    } else if (displayType === "block") {
+      classes += "block ";
+    }
+    return classes.trim();
   };
 
   return (
@@ -290,9 +391,7 @@ const GridPropertiesManager = () => {
             options={gridTemplateColumnsOptions}
             addNewWith="Column"
             gridProperties={true}
-            onSelectChange={(val) => {
-              setGridTemplateColumnsValue(val);
-            }}
+            onSelectChange={(val) => setGridTemplateColumnsValue(val)}
           />
 
           {/* Advanced dropdown for Grid Template Rows */}
@@ -306,9 +405,7 @@ const GridPropertiesManager = () => {
             options={gridTemplateRowsOptions}
             addNewWith="Row"
             gridProperties={true}
-            onSelectChange={(val) => {
-              setGridTemplateRowsValue(val);
-            }}
+            onSelectChange={(val) => setGridTemplateRowsValue(val)}
           />
 
           {/* Advanced dropdown for Gap */}
@@ -325,9 +422,7 @@ const GridPropertiesManager = () => {
             allowAdd={false}
             allowCross={false}
             gridProperties={true}
-            onSelectChange={(val) => {
-              setGapValue(val);
-            }}
+            onSelectChange={(val) => setGapValue(val)}
           />
 
           {/* Render simple grid properties */}
@@ -352,22 +447,16 @@ const GridPropertiesManager = () => {
         </div>
       )}
 
-      {/* Optional: Display the current state for debugging */}
+      {/* Output the generated original CSS */}
       <div className="mt-6 p-4 bg-secondary text-primary custom-rounded-lg">
-        <h2 className="text-lg font-bold">Current Grid Settings</h2>
-        <pre className=" overflow-auto">
-          {JSON.stringify(
-            {
-              displayType,
-              gridTemplateColumnsValue,
-              gridTemplateRowsValue,
-              gapValue,
-              simpleGridSettings,
-            },
-            null,
-            2
-          )}
-        </pre>
+        <h2 className="text-lg font-bold">Generated CSS</h2>
+        <pre className="overflow-auto whitespace-pre-wrap">{generateCSS()}</pre>
+      </div>
+
+      {/* Output the generated Tailwind CSS classes */}
+      <div className="mt-6 p-4 bg-secondary text-primary custom-rounded-lg">
+        <h2 className="text-lg font-bold">Generated Tailwind Classes</h2>
+        <pre className="overflow-auto whitespace-pre-wrap">{generateTailwindClasses()}</pre>
       </div>
     </>
   );

@@ -3,7 +3,7 @@ import { HiExternalLink } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { FaMoon } from "react-icons/fa";
 import { TbSun } from "react-icons/tb";
-import { RiLayoutMasonryFill } from "react-icons/ri";
+import { FaBoxesStacked } from "react-icons/fa6";
 
 const Header = () => {
     const location = useLocation();
@@ -37,7 +37,7 @@ const Header = () => {
                     <Link to="/">
                         <span className="flex flex-row items-center gap-2 w-full">
                             <span className="flex flex-row items-center w-[60px] justify-center">
-                                <RiLayoutMasonryFill className="text-5xl text-accent rotate-90" />
+                                <FaBoxesStacked className="text-5xl text-accent animate-bounce" />
                             </span>
                             <h1 className="text-4xl font-bold w-40 text-nowrap text-primary">Flex Grid</h1>
                         </span>

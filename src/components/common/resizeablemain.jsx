@@ -85,7 +85,7 @@ const ResizableMain = ({ children, className }) => {
   };
 
   return (
-    <div className="w-full h-full relative bg-pattern shadow-lg custom-rounded-lg relative z-100 transition-all ease-out duration-500">
+    <div className="w-full h-full relative bg-pattern custom-rounded-lg relative z-100 transition-all ease-out duration-500">
       {sizeShow && (
         <code className="text-md absolute top-2 right-2 transition-all ease-out duration-500 z-10">
           {dimensions.width === "100%" ? "" : Math.round(dimensions.width) + "x" + Math.round(dimensions.height)}
@@ -93,7 +93,7 @@ const ResizableMain = ({ children, className }) => {
       )}
 
       <div
-        className={`${className} z-1 w-full h-full group bg-main-container`}
+        className={`${className} z-1 w-full h-full group bg-main-container shadow-lg`}
         ref={containerRef}
         style={{
           width: dimensions.width,

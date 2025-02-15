@@ -1,50 +1,66 @@
 // itemTabComponent.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import EditTabListItem from "../editTabListItem";
 import FlexPropertiesManager from "../flexPropertiesManager";
 import GridPropertiesManager from "../gridPropertiesManager";
-import { MdViewColumn, MdViewStream } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import ItemPropertiesManager from "./ItemPropertiesManager";
+import { setSubItemsAllowed } from "../../../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
 const ItemTabComponent = () => {
   const location = useLocation();
-  const initialTotalItems = useSelector(state => state.settingsOptions.initialTotalItems);
-  const selectedItem = useSelector(state => state.settingsOptions.selectedItem);
-  // If the pathname is "/grid" use grid, otherwise default to flex.
-  const containerType = location.pathname === "/grid" ? "grid" : "flex";
-  const [gridTemplateColumnsValue, setGridTemplateColumnsValue] = useState("1/1");
+  const initialTotalItems = useSelector(
+    (state) => state.settingsOptions.initialTotalItems
+  );
+
+  // **Update here:** read from subItemsAllowed instead of subItems
+  const subItemsAllowed = useSelector(
+    (state) => state.settingsOptions.subItemsAllowed
+  );
+  const dispatch = useDispatch();
+
+
+  // Local state for the currently selected item (defaulting to the first one)
+  const [selectedItem, setSelectedItem] = useState(0);
+
+  // Grid template states
+  const [gridTemplateColumnsValue, setGridTemplateColumnsValue] =
+    useState("1/1");
   const [gridTemplateRowsValue, setGridTemplateRowsValue] = useState("1/1");
 
-  // Local states for selected item and its properties.
+  // Object to hold properties for each item
   const [itemProperties, setItemProperties] = useState({});
 
-  // Toggle state: if true, show (and allow editing of) the container (parent) properties.
+  // Toggle for showing container (parent) properties
   const [showItemsName, setShowItemsName] = useState(false);
-  // Local container type state that you can change with buttons.
-  const [localContainerType, setLocalContainerType] = useState(location.pathname === "/grid" ? "grid" : "flex");
+  // Container type based on URL path ("grid" or "flex")
+  const [localContainerType, setLocalContainerType] = useState(
+    location.pathname === "/grid" ? "grid" : "flex"
+  );
 
-  // --- Children (item) properties definitions ---
-
+  // Order options for some properties (for example purposes)
   const orderOptions = [];
   for (let i = 0; i < initialTotalItems; i++) {
     orderOptions.push({
-      label: i+1,
-      value: i+1,
+      label: i + 1,
+      value: i + 1,
     });
-  } 
-  // Flex container item properties.
+  }
+
+  // ------------------
+  // Define property configurations for Flex and Grid
+  // ------------------
+
   const flexItemProperties = [
     {
       key: "itemOrder",
       title: "Order",
       inpType: "select",
       inpSelect: true,
+      // Both dropdown and input default to "auto"
       selectValue: "auto",
-      options: [
-        { label: "auto", value: "auto" },
-        ...orderOptions,
-      ],
+      inpValue: "auto",
+      options: [{ label: "auto", value: "auto" }, ...orderOptions],
       optionsWrap: true,
       inpNum: false,
     },
@@ -66,12 +82,11 @@ const ItemTabComponent = () => {
       key: "flexBasis",
       title: "Flex Basis",
       inpType: "text",
-      // No inpNum or inpSelect flag so a text input will be used (fallback)
       inpValue: "auto",
       inpNum: true,
       inpSelect: true,
       inpOrder: 1,
-      selectOrder: 2, 
+      selectOrder: 2,
       selectValue: "auto",
       options: [
         { label: "auto", value: "auto" },
@@ -137,33 +152,13 @@ const ItemTabComponent = () => {
     },
   ];
 
-  // Grid container item properties.
-  // --- Options for Advanced Dropdowns ---
   const gridTemplateColumnsOptions = [
-    {
-      value: "col-1",
-      label: "Grid Column Start",
-      numInput: 1,
-    },
-    {
-      value: "col-2",
-      label: "Grid Column End",
-      numInput: 1,
-    },
-    // Add additional columns as needed.
+    { value: "col-1", label: "Grid Column Start", numInput: 1 },
+    { value: "col-2", label: "Grid Column End", numInput: 1 },
   ];
   const gridTemplateRowsOptions = [
-    {
-      value: "row-1",
-      label: "Grid Row Start",
-      numInput: 1,
-    },
-    {
-      value: "row-2",
-      label: "Grid Row End",
-      numInput: 1,
-    },
-    // Add additional columns as needed.
+    { value: "row-1", label: "Grid Row Start", numInput: 1 },
+    { value: "row-2", label: "Grid Row End", numInput: 1 },
   ];
   const gridItemProperties = [
     {
@@ -208,7 +203,6 @@ const ItemTabComponent = () => {
         { label: "%", value: "%" },
       ],
       min: 0,
-      max: 100,
       step: 1,
     },
     {
@@ -216,9 +210,9 @@ const ItemTabComponent = () => {
       title: "Height",
       inpType: "number",
       inpSelect: true,
-      inpValue: 0,
       selectValue: "auto",
       inpNum: true,
+      inpValue: 0,
       inpOrder: 1,
       selectOrder: 2,
       options: [
@@ -227,192 +221,299 @@ const ItemTabComponent = () => {
         { label: "%", value: "%" },
       ],
       min: 0,
-      max: 100,
       step: 1,
     },
   ];
 
-  // Choose which set of properties to render for the child items.
+  // Choose the proper set of properties based on container type
   const propertiesOptions =
     localContainerType === "grid" ? gridItemProperties : flexItemProperties;
 
-  // Handler to update a property for the selected item.
-  const handlePropertyChange = (key, value) => {
-    if (selectedItem === null) return;
+  // ---------------------------------------------------------
+  // Update handler – note we add a third parameter to indicate
+  // whether the change came from the dropdown ("select") or input ("inp")
+  // ---------------------------------------------------------
+  const handlePropertyChange = (key, value, type) => {
     setItemProperties((prev) => ({
       ...prev,
       [selectedItem]: {
         ...prev[selectedItem],
-        [key]: value,
+        [key + (type === "select" ? "_select" : "_inp")]: value,
       },
     }));
   };
 
-  // Example items (for demonstration).
-  const items = [0, 1, 2];
+  // ---------------------------------------------------------
+  // Pre-populate default values for the currently selected item
+  // so the JSON output shows the initial values.
+  // ---------------------------------------------------------
+  useEffect(() => {
+    if (selectedItem !== null && !itemProperties[selectedItem]) {
+      const defaults = {};
+      propertiesOptions.forEach((prop) => {
+        defaults[prop.key + "_inp"] = prop.inpValue;
+        defaults[prop.key + "_select"] = prop.selectValue;
+      });
+      setItemProperties((prev) => ({
+        ...prev,
+        [selectedItem]: defaults,
+      }));
+    }
+  }, [selectedItem, propertiesOptions, itemProperties]);
+
+  // ---------------------------------------------------------
+  // Generate plain CSS for the currently selected item's properties.
+  // The mappings here are basic and assume that:
+  // - For flex items, keys ending with "_inp" and "_select" combine to form values.
+  // - For grid items, a similar approach is used.
+  // ---------------------------------------------------------
+  const generateItemCSS = () => {
+    const props = itemProperties[selectedItem];
+    if (!props) return "";
+    let css = "";
+    if (localContainerType === "flex") {
+      css += `order: ${props.itemOrder_select || "auto"};\n`;
+      css += `flex-grow: ${props.flexGrow_inp};\n`;
+      css += `flex-shrink: ${props.flexShrink_inp};\n`;
+      const flexBasis =
+        props.flexBasis_select === "auto"
+          ? "auto"
+          : `${props.flexBasis_inp}${props.flexBasis_select}`;
+      css += `flex-basis: ${flexBasis};\n`;
+      css += `align-self: ${props.alignSelf_select};\n`;
+      const width =
+        props.itemWidth_select === "auto"
+          ? "auto"
+          : `${props.itemWidth_inp}${props.itemWidth_select}`;
+      css += `width: ${width};\n`;
+      const height =
+        props.itemHeight_select === "auto"
+          ? "auto"
+          : `${props.itemHeight_inp}${props.itemHeight_select}`;
+      css += `height: ${height};\n`;
+    } else {
+      css += `justify-self: ${props.justifySelf_select};\n`;
+      css += `align-self: ${props.alignSelf_select};\n`;
+      const width =
+        props.itemWidth_select === "auto"
+          ? "auto"
+          : `${props.itemWidth_inp}${props.itemWidth_select}`;
+      css += `width: ${width};\n`;
+      const height =
+        props.itemHeight_select === "auto"
+          ? "auto"
+          : `${props.itemHeight_inp}${props.itemHeight_select}`;
+      css += `height: ${height};\n`;
+    }
+    return css;
+  };
+
+  // ---------------------------------------------------------
+  // Generate Tailwind CSS classes for the currently selected item.
+  // Adjust the mappings as needed.
+  // ---------------------------------------------------------
+  const generateItemTailwindClasses = () => {
+    const props = itemProperties[selectedItem];
+    if (!props) return "";
+    let classes = "";
+    if (localContainerType === "flex") {
+      // Order
+      if (props.itemOrder_select && props.itemOrder_select !== "auto") {
+        classes += `order-${props.itemOrder_select} `;
+      }
+      // Flex Grow – Tailwind’s default "grow" applies when flex-grow is 1.
+      if (props.flexGrow_inp > 0) {
+        classes += props.flexGrow_inp === 1
+          ? "grow "
+          : `grow-[${props.flexGrow_inp}] `;
+      }
+      // Flex Shrink (using an arbitrary value)
+      classes += `shrink-[${props.flexShrink_inp}] `;
+      // Flex Basis
+      const basis =
+        props.flexBasis_select === "auto"
+          ? "auto"
+          : `${props.flexBasis_inp}${props.flexBasis_select}`;
+      classes += basis === "auto"
+        ? "basis-auto "
+        : `basis-[${basis}] `;
+      // Align Self mapping
+      const alignSelfMap = {
+        auto: "self-auto",
+        "flex-start": "self-start",
+        "flex-end": "self-end",
+        center: "self-center",
+        baseline: "self-baseline",
+        stretch: "self-stretch",
+      };
+      if (alignSelfMap[props.alignSelf_select]) {
+        classes += `${alignSelfMap[props.alignSelf_select]} `;
+      }
+      // Width and Height
+      const width =
+        props.itemWidth_select === "auto"
+          ? "auto"
+          : `${props.itemWidth_inp}${props.itemWidth_select}`;
+      if (width !== "auto") {
+        classes += `w-[${width}] `;
+      }else{
+        classes += `w-auto `;
+      }
+      const height =
+        props.itemHeight_select === "auto"
+          ? "auto"
+          : `${props.itemHeight_inp}${props.itemHeight_select}`;
+      if (height !== "auto") {
+        classes += `h-[${height}] `;
+      }else{
+        classes += `h-auto `;
+      }
+    } else {
+      // For grid items
+      const justifySelfMap = {
+        start: "justify-self-start",
+        end: "justify-self-end",
+        center: "justify-self-center",
+        stretch: "justify-self-stretch",
+      };
+      if (justifySelfMap[props.justifySelf_select]) {
+        classes += `${justifySelfMap[props.justifySelf_select]} `;
+      }
+      const alignSelfMap = {
+        start: "self-start",
+        end: "self-end",
+        center: "self-center",
+        stretch: "self-stretch",
+      };
+      if (alignSelfMap[props.alignSelf_select]) {
+        classes += `${alignSelfMap[props.alignSelf_select]} `;
+      }
+      const width =
+        props.itemWidth_select === "auto"
+          ? "auto"
+          : `${props.itemWidth_inp}${props.itemWidth_select}`;
+      if (width !== "auto") {
+        classes += `w-[${width}] `;
+      }else{
+        classes += `w-auto `;
+      }
+      const height =
+        props.itemHeight_select === "auto"
+          ? "auto"
+          : `${props.itemHeight_inp}${props.itemHeight_select}`;
+      if (height !== "auto") {
+        classes += `h-[${height}] `;
+      }else{
+        classes += `h-auto `;
+      }
+    }
+    return classes.trim();
+  };
 
   return (
-    <div className="item-tab-component p-4">
-      {/* --- Top header: title and toggle --- */}
+    <div className="item-tab-component">
+      {/* Top header with title and a toggle for container (parent) properties */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold mb-4">
           {localContainerType === "grid" ? "Grid" : "Flex"} Sub Container
         </h2>
-        {/* Custom Toggle */}
         <span className="flex items-center justify-end w-1/2">
-          <label htmlFor="showItemsName" className="relative inline-block w-16 h-8 cursor-pointer">
+          <label
+            htmlFor="subItemsAllowed"
+            className="relative inline-block w-16 h-8 cursor-pointer"
+          >
             <input
               type="checkbox"
-              id="showItemsName"
+              id="subItemsAllowed"
               className="sr-only peer"
-              checked={showItemsName}
-              onChange={() => setShowItemsName(!showItemsName)}
+              checked={subItemsAllowed }
+              onChange={() => dispatch(setSubItemsAllowed(!subItemsAllowed))}
             />
-            {/* Toggle Track */}
-            <div
-              className="w-full h-full rounded-full bg-gray-300
-                         peer-focus:ring-0 transition-colors duration-300
-                         bg-[var(--text-secondary)]
-                         peer-checked:bg-[var(--color-primary)]"
-            ></div>
-            {/* Toggle Knob */}
-            <span
-              className="absolute left-0.5 top-0.5 h-7 w-7 inset-t-box-shadow bg-white rounded-full 
-                         transition-transform duration-300 
-                         peer-checked:translate-x-8"
-            ></span>
+            <div className="w-full h-full rounded-full bg-gray-300 peer-focus:ring-0 transition-colors duration-300 bg-[var(--text-secondary)] peer-checked:bg-[var(--color-primary)]"></div>
+            <span className="absolute left-0.5 top-0.5 h-7 w-7 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-8"></span>
           </label>
         </span>
       </div>
 
-      {/* --- If toggle is on: render container (parent) properties editor --- */}
-      {showItemsName && (
-        <div className="parent-properties mb-6 border p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2">Container Properties</h3>
-          {/* Container display mode options */}
+      {/* Optionally render parent/container properties */}
+      {subItemsAllowed && (
+        <div className="parent-properties mb-6 rounded-lg">
+          <h3 className="text-xl font-semibold mb-2">
+            Container Properties
+          </h3>
           <div className="flex gap-2 mb-4">
-            <div className="flex flex-row gap-4 w-full p-2 gap-2 rounded-2xl bg-container text-secondary transition-all ease-out duration-500">
-              <div className={`w-1/2 py-3 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-2xl p-3 ${localContainerType === "flex" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => setLocalContainerType("flex")}> Flex</div>
-              <div className={`w-1/2 py-3 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-2xl p-3 ${localContainerType === "grid" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => setLocalContainerType("grid")}> Grid</div>
+            <div className="flex flex-row gap-4 w-full p-2 rounded-2xl bg-container text-secondary transition-all ease-out duration-500">
+              <div
+                className={`w-1/2 py-3 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-2xl p-3 ${
+                  localContainerType === "flex"
+                    ? "bg-icon text-white"
+                    : "bg-transparent"
+                }`}
+                onClick={() => setLocalContainerType("flex")}
+              >
+                Flex
+              </div>
+              <div
+                className={`w-1/2 py-3 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-2xl p-3 ${
+                  localContainerType === "grid"
+                    ? "bg-icon text-white"
+                    : "bg-transparent"
+                }`}
+                onClick={() => setLocalContainerType("grid")}
+              >
+                Grid
+              </div>
             </div>
-
           </div>
-          {/* Render the full container properties editor */}
           <div className="container-properties-manager">
             {localContainerType === "grid" ? (
               <GridPropertiesManager />
             ) : (
-              <FlexPropertiesManager extra={localContainerType === "flex3"} />
+              <FlexPropertiesManager
+                extra={localContainerType === "flex3"}
+              />
             )}
           </div>
         </div>
       )}
 
-      {/* --- Always render the container with its child items --- */}
-      <div className={`container_outer flex flex-col border p-4 mb-6`}>
-        {/* Render the child items */}
-        <div className="grid-container">
-              {items.map((item) => (
-                <div
-                  key={item}
-                  className={`item border p-2 m-2 cursor-pointer ${selectedItem === item ? "bg-blue-200" : "bg-gray-100"
-                    }`}
-                  onClick={() => setSelectedItem(item)}
-                  style={itemProperties[item] || {}}
-                >
-                  Item {item + 1}
-                </div>
-              ))}
-            </div>
+      <div className="container_outer flex flex-col mb-6">
+       
 
-            {/* --- Properties editor for the selected child (item) --- */}
-            <div className="item-properties">
-              {selectedItem !== null ? (
-                <div>
-                  <h3 className="text-xl font-semibold mb-2">
-                    Properties for Item {selectedItem + 1}
-                  </h3>
-                          {/* Render the grid template columns and rows dropdowns if the container is a grid */}
-        {localContainerType === "grid" && (
-          <div className="flex flex-col gap-4 mb-4">
-            {/* Advanced dropdown for Grid Template Columns */}
-            <EditTabListItem
-              key="gridTemplateColumns"
-              title="Grid Template Columns"
-              icon={<MdViewColumn className="text-primary w-8 h-8" />}
-              inpSelect={true}
-              inpType="select"
-              selectValue={gridTemplateColumnsValue}
-              options={gridTemplateColumnsOptions}
-              allowCross={false}
-              allowAdd={false}
-              subOptionsAllow={false}
-              gridProperties={true}
-              onSelectChange={(val) => {
-                setGridTemplateColumnsValue(val);
-              }}
-            />
+        <ItemPropertiesManager
+          selectedItem={selectedItem}
+          itemProperties={itemProperties}
+          handlePropertyChange={handlePropertyChange}
+          localContainerType={localContainerType}
+          gridTemplateColumnsValue={gridTemplateColumnsValue}
+          setGridTemplateColumnsValue={setGridTemplateColumnsValue}
+          gridTemplateRowsValue={gridTemplateRowsValue}
+          setGridTemplateRowsValue={setGridTemplateRowsValue}
+          propertiesOptions={propertiesOptions}
+          gridTemplateColumnsOptions={gridTemplateColumnsOptions}
+          gridTemplateRowsOptions={gridTemplateRowsOptions}
+        />
+      
+      </div>
 
-            {/* Advanced dropdown for Grid Template Rows */}
-            <EditTabListItem
-              key="gridTemplateRows"
-              title="Grid Template Rows"
-              icon={<MdViewStream className="text-primary w-8 h-8" />}
-              inpSelect={true}
-              inpType="select"
-              selectValue={gridTemplateRowsValue}
-              options={gridTemplateRowsOptions}
-              allowCross={false}
-              allowAdd={false}
-              subOptionsAllow={false}
-              gridProperties={true}
-              onSelectChange={(val) => {
-                setGridTemplateRowsValue(val);
-              }}
-            />
-          </div>
-        )}
+      {/* Generated CSS for the currently selected item */}
+      <div className="mt-6 p-4 bg-secondary text-primary custom-rounded-lg">
+        <h2 className="text-lg font-bold">Generated Item CSS</h2>
+        <pre className="overflow-auto whitespace-pre-wrap">
+          {generateItemCSS()}
+        </pre>
+      </div>
 
-                  <div className="space-y-4">
-                    {propertiesOptions.map((prop) => (
-                      <EditTabListItem
-                        key={prop.key}
-                        title={prop.title}
-                        inpType={prop.inpType}
-                        inpSelect={prop.inpSelect}
-                        optionsWrap={prop.optionsWrap}
-                        inpNum={selectedItem === 'auto' ? false : prop.inpNum}
-                        inpOrder={prop.inpOrder}
-                        selectOrder={prop.selectOrder}
-                        // The fallback value is either the stored value or the default defined in the property.
-                        inpValue={
-                          (itemProperties[selectedItem] &&
-                            itemProperties[selectedItem][prop.key]) ||
-                          prop.inpValue ||
-                          ""
-                        }
-                        selectValue={prop.selectValue}
-                        options={prop.options}
-                        onSelectChange={(value) => handlePropertyChange(prop.key, value)}
-                        onInpChange={(value) => handlePropertyChange(prop.key, value)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="p-4 bg-yellow-100 text-yellow-800 rounded">
-                  <p>Please click on an item above to edit its properties.</p>
-                </div>
-              )}
-            </div>
-
-            {/* --- Debug / JSON output --- */}
-            <div className="mt-6 p-4 bg-gray-200 text-gray-800 rounded">
-              <h3 className="font-semibold">Current Item Properties</h3>
-              <pre className="overflow-auto">{JSON.stringify(itemProperties, null, 2)}</pre>
-            </div>
-          </div>
-        </div>
+      {/* Generated Tailwind CSS classes for the currently selected item */}
+      <div className="mt-6 p-4 bg-secondary text-primary custom-rounded-lg">
+        <h2 className="text-lg font-bold">
+          Generated Item Tailwind Classes
+        </h2>
+        <pre className="overflow-auto whitespace-pre-wrap">
+          {generateItemTailwindClasses()}
+        </pre>
+      </div>
+    </div>
   );
 };
 

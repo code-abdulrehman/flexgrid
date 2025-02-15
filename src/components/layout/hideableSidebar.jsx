@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import EditTabListItem from "../common/hideableSidebarTabComponents/editTabComponents/editTabListItem"; 
+import EditTabListItem from "../common/hideableSidebarTabComponents/editTabComponents/editTabListItem";
 import FlexPropertiesManager from "../common/hideableSidebarTabComponents/editTabComponents/flexPropertiesManager";
 import GridPropertiesManager from "../common/hideableSidebarTabComponents/editTabComponents/gridPropertiesManager";
 import SaveInput from "../common/hideableSidebarTabComponents/saveTabComponents/saveInput";
@@ -17,10 +17,11 @@ import ItemTabComponent from "../common/hideableSidebarTabComponents/editTabComp
 const HideableSidebar = ({ className }) => {
   const sidebarVisible = useSelector((state) => state.settingsOptions.sidebarVisible);
   const dispatch = useDispatch();
-  
+
   const location = useLocation();
   const [currentLocation, setCurrentLocation] = useState(location.hash);
   const [currentTab, setCurrentTab] = useState("container");
+  const subItemsAllowed = useSelector((state) => state.settingsOptions.subItemsAllowed);
 
   useEffect(() => {
     setCurrentLocation(location.hash);
@@ -38,8 +39,11 @@ const HideableSidebar = ({ className }) => {
         {currentLocation === "#pen" && (
           <div className="flex flex-col gap-4 py-2 transition-all ease-out duration-500">
             <div className="flex flex-row gap-4 w-full p-2 gap-2 custom-rounded-lg bg-container text-secondary transition-all ease-out duration-500">
-              <div className={`w-1/2 py-4 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-3xl p-4 ${currentTab === "container" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => handleTabClick("container")}> Container</div>
-              <div className={`w-1/2 py-4 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-3xl p-4 ${currentTab === "items" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => handleTabClick("items")}> Item</div>
+              <div className={`w-1/2 py-4 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-3xl p-4 overflow-hidden text-ellipsis whitespace-nowrap ${currentTab === "container" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => handleTabClick("container")}> Container</div>
+              <div className={`w-1/2 py-4 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-3xl p-4 overflow-hidden text-ellipsis whitespace-nowrap ${currentTab === "items" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => handleTabClick("items")}> Items</div>
+              {subItemsAllowed ? (
+                <div className={`w-1/2 py-4 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-3xl p-4 overflow-hidden text-ellipsis whitespace-nowrap ${currentTab === "subItems" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => handleTabClick("subItems")}> Sub Items</div>
+              ) : ""}
             </div>
 
 
@@ -59,6 +63,12 @@ const HideableSidebar = ({ className }) => {
               <div className="flex flex-col gap-2 mt-6 transition-all ease-out duration-500">
                 {/* <EditTabListItem selectOrder="2" inpOrder="1" inpSelect={true} inpNum={false} /> */}
                 <ItemTabComponent />
+              </div>
+            )}
+
+            {currentTab === "subItems" && (
+              <div className="flex flex-col gap-2 mt-6 transition-all ease-out duration-500">
+                <EditTabListItem selectOrder="2" inpOrder="1" inpSelect={true} inpNum={false} />
               </div>
             )}
 
