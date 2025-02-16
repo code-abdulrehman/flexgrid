@@ -21,7 +21,7 @@ const ItemPropertiesManager = ({
       {selectedItem !== null ? (
         <div>
           <h3 className="text-xl font-semibold mb-2">
-            Properties for Item {selectedItem + 1}
+            Properties for Item [{selectedItem ? selectedItem.join(",") : "none"}]
           </h3>
 
           {/* Render grid-specific dropdowns if needed */}

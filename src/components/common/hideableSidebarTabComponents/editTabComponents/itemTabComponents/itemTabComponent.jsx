@@ -20,8 +20,7 @@ const ItemTabComponent = () => {
   const dispatch = useDispatch();
 
 
-  // Local state for the currently selected item (defaulting to the first one)
-  const [selectedItem, setSelectedItem] = useState(0);
+  const selectedItem = useSelector((state) => state.settingsOptions.selectedItem);
 
   // Grid template states
   const [gridTemplateColumnsValue, setGridTemplateColumnsValue] =

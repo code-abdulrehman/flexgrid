@@ -27,7 +27,7 @@ const initialState = Object.freeze({
   theme: "system",
   showItemsName: true,
   sidebarVisible: true,
-  selectedItem: [0],
+  selectedItem: [],
   multipleSelection: true,
   initialTotalItems: 4,
   subItemsAllowed: false, // default: sub-items are NOT allowed

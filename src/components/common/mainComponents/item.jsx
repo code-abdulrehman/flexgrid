@@ -47,9 +47,9 @@ const Item = ({
       onClick={onClick}
       style={{
         width: `${width}${widthUnit}`,
-        height: `${height}${heightUnit}`,
+        height: `${height+20}${heightUnit}`,
         minWidth: `${width}${widthUnit}`,
-        minHeight: `${height}${heightUnit}`,
+        minHeight: `${height+20}${heightUnit}`,
       }}
     >
       <span className="relative float-right inline-block">
@@ -68,7 +68,7 @@ const Item = ({
 
       <div className="flex flex-col items-between w-full h-full">
         {showItemsName && (
-        <span className="flex items-center justify-between ">
+        <span className="flex items-center justify-between  ml-1">
           {isEditing ? (
             <CustomInput
               value={inputValue}
@@ -94,7 +94,7 @@ const Item = ({
         </span>
         )}
 
-        <div className="flex-1 border border-red-500 w-full h-full">
+        <div className="flex-1 border-2 custom-rounded-lg border-icon w-full h-full">
           {/* You can add extra content here if needed */}
         </div>
       </div>
