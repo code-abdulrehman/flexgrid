@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditTabListItem from "./editTabListItem";
 import {
   MdOutlineFormatAlignCenter,
@@ -12,9 +12,13 @@ import {
 } from "react-icons/lu";
 import { CgArrowAlignH, CgScrollV } from "react-icons/cg";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { setOutputCode, setTotalItems, setTotalSubItems, setTotalSubContainers, setTotalContainers, setSelectedItem, setSelectedSubItem, setSelectedSubContainer, setSelectedContainer } from "../../../../lib/store/reducers/outputCodeReducer/outputCodeReducer";
 
 const FlexPropertiesManager = () => {
+  const dispatch = useDispatch();
   const [displayType, setDisplayType] = useState("flex");
+
   const [flexSettings, setFlexSettings] = useState({
     flexDirection: "row",
     flexWrap: "nowrap",
@@ -24,7 +28,7 @@ const FlexPropertiesManager = () => {
     gapValue: 10,
     gapUnit: "px",
     overflow: "auto",
-  });
+  }); 
 
   const flexProperties = [
     {
@@ -277,6 +281,28 @@ const FlexPropertiesManager = () => {
     }
     return classes.trim();
   };
+
+  const handleOutputCode = () => {
+    dispatch(setOutputCode({
+      container: {
+        name: "container",
+        type: "container",
+        css: generateCSS(),
+        tailwind: generateTailwindClasses(),
+      },
+    }));
+    dispatch(setTotalItems(1));
+    dispatch(setTotalSubItems(0));
+    dispatch(setTotalSubContainers(0));
+    dispatch(setTotalContainers(1));
+    dispatch(setSelectedItem([0]));
+    dispatch(setSelectedSubItem([]));
+    dispatch(setSelectedSubContainer([]));
+  };
+
+  useEffect(() => {
+    handleOutputCode();
+  }, [displayType]);
 
   return (
     <>

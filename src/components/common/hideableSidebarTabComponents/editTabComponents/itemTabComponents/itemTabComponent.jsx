@@ -191,8 +191,8 @@ const ItemTabComponent = () => {
       title: "Width",
       inpType: "number",
       inpSelect: true,
-      inpValue: 0,
-      selectValue: "auto",
+      inpValue: 150,
+      selectValue: "px",
       inpNum: true,
       inpOrder: 1,
       selectOrder: 2,
@@ -209,9 +209,9 @@ const ItemTabComponent = () => {
       title: "Height",
       inpType: "number",
       inpSelect: true,
-      selectValue: "auto",
+      selectValue: "px",
       inpNum: true,
-      inpValue: 0,
+      inpValue: 150,
       inpOrder: 1,
       selectOrder: 2,
       options: [
@@ -332,7 +332,7 @@ const ItemTabComponent = () => {
       const basis =
         props.flexBasis_select === "auto"
           ? "auto"
-          : `${props.flexBasis_inp}${props.flexBasis_select}`;
+          : `${props.flexBasis_inp}${props.flexBasis_select}`;t
       classes += basis === "auto"
         ? "basis-auto "
         : `basis-[${basis}] `;
