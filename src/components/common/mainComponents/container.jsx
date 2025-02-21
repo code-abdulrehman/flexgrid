@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Item from "./item";
 import { useDispatch, useSelector } from "react-redux";  
 import { setSelectedItem } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
 const Container = ({ display = "flex", gap = "10", className = "" }) => {
   const dispatch = useDispatch();
-  const totalItems = useSelector(state => state.settingsOptions.initialTotalItems) || 4;
+  const totalItems = useSelector(state => state.outputCode.totalItems) || 4;
   const multipleSelection = useSelector(state => state.settingsOptions.multipleSelection);
 
   // Always use an array to store selected item(s). 
@@ -19,16 +19,16 @@ const Container = ({ display = "flex", gap = "10", className = "" }) => {
       if (selectedItemState.includes(index)) {
         const newSelected = selectedItemState.filter(i => i !== index);
         setSelectedItemState(newSelected);
-        dispatch(setSelectedItem(newSelected));
+        dispatch(setSelectedItem([...newSelected]));
       } else {
         const newSelected = [...selectedItemState, index];
         setSelectedItemState(newSelected);
-        dispatch(setSelectedItem(newSelected));
+        dispatch(setSelectedItem([...newSelected]));
       }
     } else {
       // In single-selection mode, we always store the selected item in an array
-      setSelectedItemState([index]);
-      dispatch(setSelectedItem(index));
+        setSelectedItemState([index]);
+        dispatch(setSelectedItem([index]));
     }
   };
 

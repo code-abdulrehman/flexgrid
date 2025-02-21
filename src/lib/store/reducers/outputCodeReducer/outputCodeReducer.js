@@ -1,6 +1,6 @@
 // outputCodeReducer.js
 const initialState = Object.freeze({
-    totalItems: 0,
+    totalItems: 4,
     totalSubItems: 0,
     totalSubContainers: 0,
     totalContainers: 0,
@@ -77,7 +77,7 @@ const initialState = Object.freeze({
       case ACTION_TYPES.SET_SELECTED_CONTAINER:
         return { ...state, selectedContainer: action.payload };
       case ACTION_TYPES.RESET_OUTPUT_CODE:
-        return initialState;
+        return { ...initialState, selectedItem: [0] };
       default:
         return state;
     }

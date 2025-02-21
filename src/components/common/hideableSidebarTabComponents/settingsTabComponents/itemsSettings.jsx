@@ -11,6 +11,7 @@ import { showItemsName as toggleShowItemsName } from "../../../../lib/store/redu
 const ItemsSettings = () => {
   const dispatch = useDispatch();
   const showItemsName = useSelector((state) => state.settingsOptions.showItemsName);
+  const totalItems = useSelector((state) => state.outputCode.totalItems);
 
   return (
     <div className="flex flex-col items-start justify-center gap-4 custom-rounded-lg bg-content p-6 py-8">
@@ -22,6 +23,7 @@ const ItemsSettings = () => {
             Items
           </p>
         </span>
+          <span className="text-secondary">{totalItems}</span>
       </div>
 
       <div className="bg-divider w-full h-[2px]"></div>
@@ -48,6 +50,8 @@ const ItemsSettings = () => {
                             peer-focus:ring-0
                             transition-colors duration-300
                             bg-[var(--text-secondary)]
+                            bg-pattern-2 
+                            overflow-hidden
                             peer-checked:bg-[var(--color-primary)]">
             </div>
             {/* Toggle Knob */}

@@ -82,6 +82,8 @@ const ContainerSettings = () => {
                             peer-focus:ring-0
                             transition-colors duration-300
                             bg-[var(--text-secondary)]
+                            bg-pattern-2 
+                            overflow-hidden
                             peer-checked:bg-[var(--color-primary)] "></div>
             {/* Toggle Knob */}
             <span className="absolute left-0.5 top-0.5 h-7 w-7 inset-t-box-shadow bg-white rounded-full 

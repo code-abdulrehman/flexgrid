@@ -85,7 +85,7 @@ const Sidebar = ({ className }) => {
 
   return (
     <div className={className + " md:min-w-24 md:max-w-24 w-full bg-secondary md:min-h-full md:max-h-full min-h-24 max-h-24 custom-rounded-lg flex md:flex-col flex-row gap-4 shadow-lg transition-all ease-out duration-500"}>
-      <div className="w-[75%] md:w-full flex md:flex-col md:justify-start justify-between items-center md:gap-4 p-4 md:pr-4 pr-0 md:h-[80%] h-full grow">
+      <div className="w-full md:w-full flex md:flex-col md:justify-start justify-between items-center md:gap-4 p-4 md:pr-4 pr-0 md:h-[80%] h-full grow">
         {/* Collapse/Expand button */}
         <span
           className="text-4xl flex justify-center items-center rounded w-16 h-16 p-2 cursor-pointer text-primary md:rotate-0 -rotate-90"
@@ -138,7 +138,7 @@ const Sidebar = ({ className }) => {
         <div className="min-h-[2px] max-h-[2px] w-16 bg-divider md:inline-block hidden"></div>
       </div>
 
-      <div className="w-[25%] md:w-full flex justify-between md:justify-center items-center gap-4 md:pl-4 pl-0 p-4 md:h-[15%] h-full md:flex-col">
+      <div className="hidden md:flex md:w-full justify-between md:justify-center items-center gap-4 md:pl-4 pl-0 p-4 md:h-[15%] h-full md:flex-col">
         {bottomRoute.map((route, index) => (
           <Link
             key={index}

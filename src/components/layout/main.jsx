@@ -5,7 +5,7 @@ import MainDash from "../common/mainComponents/mainDash";
 const Main = () => {
    return (
       <>
-         <div className=" grow w-auto h-full custom-rounded-lg transition-[width] ease-in duration-100">
+         <div className=" grow w-auto h-full custom-rounded-lg transition-[width] ease-in duration-100 overflow-hidden transition-all ease-out duration-500">
 
             <ResizableMain className=" grow w-auto h-full custom-rounded-lg transition-[width] ease-in-out duration-100 overflow-hidden transition-all ease-out duration-500">
                <MainDash />

@@ -332,7 +332,7 @@ const ItemTabComponent = () => {
       const basis =
         props.flexBasis_select === "auto"
           ? "auto"
-          : `${props.flexBasis_inp}${props.flexBasis_select}`;t
+          : `${props.flexBasis_inp}${props.flexBasis_select}`;
       classes += basis === "auto"
         ? "basis-auto "
         : `basis-[${basis}] `;
