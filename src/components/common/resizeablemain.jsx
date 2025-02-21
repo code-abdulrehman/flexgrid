@@ -93,7 +93,7 @@ const ResizableMain = ({ children, className }) => {
       )}
 
       <div
-        className={`${className} z-1 w-full h-full group bg-main-container shadow-lg`}
+        className={`${className} z-1 w-full h-full group bg-main-container bg-pattern-1 shadow-lg`}
         ref={containerRef}
         style={{
           width: dimensions.width,

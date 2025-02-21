@@ -1,5 +1,5 @@
 // GridPropertiesManager.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditTabListItem from "./editTabListItem";
 import {
   MdOutlineFormatAlignCenter,
@@ -11,10 +11,15 @@ import {
 } from "react-icons/md";
 import { CgArrowAlignH, CgScrollV } from "react-icons/cg";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import { setOutputCode, resetOutputCode, outputCode } from "../../../../lib/store/reducers/outputCodeReducer/outputCodeReducer";
+
 
 const GridPropertiesManager = () => {
   // State for display type
   const [displayType, setDisplayType] = useState("grid");
+  const outputCodeData = useSelector(outputCode);
+  const dispatch = useDispatch();
 
   // Advanced dropdown states
   const [gridTemplateColumnsValue, setGridTemplateColumnsValue] = useState("");
@@ -290,6 +295,9 @@ const GridPropertiesManager = () => {
         css += `${kebabKey}: ${value};\n`;
       });
     }
+    else if (displayType === "block") {
+      css += `display: block;\n`;
+    }
     return css;
   };
 
@@ -357,6 +365,18 @@ const GridPropertiesManager = () => {
     }
     return classes.trim();
   };
+
+   useEffect(() => {
+      dispatch(setOutputCode({
+        container: {
+          name: "container",
+          type: displayType,
+          css: generateCSS(),
+          tailwind: generateTailwindClasses()
+        },
+      }));
+      console.log(outputCodeData, "outputCode");
+    }, [displayType, gridTemplateColumnsValue, gridTemplateRowsValue, gapValue, simpleGridSettings,]);
 
   return (
     <>

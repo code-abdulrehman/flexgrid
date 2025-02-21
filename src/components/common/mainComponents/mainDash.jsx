@@ -42,26 +42,19 @@ const MainDash = () => {
       
 
       const handleDeleteItemClick = () => {
-        // Make sure we have more than one item to delete from and something selected.
         if (totalItems > 1 && selectedItem.length > 0) {
-          // For single selection, assume selectedItem[0] is the item to delete.
+          // Assume single selection; delete the item at selectedItem[0]
           const deleteIndex = selectedItem[0];
-      
-          // Decrease the total number of items.
+          
+          // Decrement the total count
           dispatch(setTotalItems(totalItems - 1));
-      
-          // Determine which item should be selected after deletion.
-          // If the deleted item was the last one, select the new last item.
-          // Otherwise, keep the same index (which now corresponds to the next item).
-          let newSelected;
-          if (deleteIndex >= totalItems - 1) {
-            newSelected = [totalItems - 2]; // new last index (after deletion)
-          } else {
-            newSelected = [deleteIndex];
-          }
+          
+          // Adjust selection: if the deleted item was last, select the new last item.
+          const newSelected = deleteIndex >= totalItems - 1 
+            ? [totalItems - 2] 
+            : [deleteIndex];
           dispatch(setSelectedItem(newSelected));
         } else {
-          // If there is only one item, you might want to clear the selection or handle it differently.
           dispatch(setSelectedItem([]));
         }
       };
@@ -114,35 +107,32 @@ const MainDash = () => {
  
    return (
       <div className="flex gap-4 my-6 w-full justify-center items-center">
-         <div className="flex items-center justify-between w-auto  md:min-w-1/4 md:max-w-1/4 custom-rounded-lg bg-primary h-24 p-6 gap-4 shadow-lg transition-all duration-300 ease-in-out" id="main-dash">
-            {displayItems.map((item) => (
+         <ul className="flex items-center justify-between w-auto  md:min-w-1/4 md:max-w-1/4 custom-rounded-lg bg-primary h-24 p-6 gap-4 shadow-lg transition-all duration-300 ease-in-out" id="main-dash">
                 <>
-               <div id={item.id} key={item.id} className={`flex items-center justify-center rounded-2xl p-2 cursor-pointer text-4xl w-16 h-16  active:bg-icon active:text-white ${selectedMainDashItem === item.id ? "bg-icon text-white" : ""}`} onClick={() => {
+            {displayItems.map((item) => (
+               <li id={item.id} key={item.id} className="flex items-center justify-center rounded-2xl p-2 cursor-pointer text-4xl w-16 h-16  active:bg-[var(--icon-bg)] active:text-white" onClick={() => {
                 if (item.id === "add_item") {
+                    setSelectedMainDashItem(item.id);
                     handleAddItemClick();
-                    setSelectedMainDashItem(item.id);
                 } else if (item.id === "duplicate") {
+                    setSelectedMainDashItem(item.id);
                     handleDuplicateItemClick();
-                    setSelectedMainDashItem(item.id);
                 } else if (item.id === "delete") {
+                    setSelectedMainDashItem(item.id);
                     handleDeleteItemClick();
-                    setSelectedMainDashItem(item.id);
                 } else if (item.id === "reload") {
-                    handleReloadItemClick();
                     setSelectedMainDashItem(item.id);
+                    handleReloadItemClick();
                 } else {
                     setSelectedMainDashItem(item.id);
                 }
                }}>
                   {item.icon}
 
-                    </div>
-               {/* {item.index === (item.index+1 %2 )&& 
-                <div className="h-10 w-[2px] bg-divider inline-block mx-1"></div>
-                } */}
-               </>
+                    </li>
             ))}
-         </div>
+               </>
+         </ul>
       </div>
    );
 };

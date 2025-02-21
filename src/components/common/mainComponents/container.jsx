@@ -3,7 +3,7 @@ import Item from "./item";
 import { useDispatch, useSelector } from "react-redux";  
 import { setSelectedItem } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
-const Container = ({ display = "flex", gap = "10", className = "" }) => {
+const Container = ({ display = "flex", gap = "10", className, styles }) => {
   const dispatch = useDispatch();
   const totalItems = useSelector(state => state.outputCode.totalItems) || 4;
   const multipleSelection = useSelector(state => state.settingsOptions.multipleSelection);
@@ -32,21 +32,35 @@ const Container = ({ display = "flex", gap = "10", className = "" }) => {
     }
   };
 
-  const items = Array.from({ length: totalItems }, (_, index) => ({
-    name: index + 1,
-    icon: "🔍",
-  }));
+  const [items, setItems] = useState(
+    Array.from({ length: totalItems }, (_, index) => ({
+      id: index,
+      name: index + 1,
+      icon: "🔍",
+    }))
+  );
+  
+  useEffect(() => {
+    setItems(
+      Array.from({ length: totalItems }, (_, index) => ({
+        id: index,
+        name: index + 1,
+        icon: "🔍",
+      }))
+    );
+  }, [totalItems]);
+  
 
   const containerStyle = {
-    display: display,   // "flex", "grid", or "block"
-    gap: `${gap}px`,
+    // display: display,   // "flex", "grid", or "block"
+    // gap: `${gap}px`,
   };
 
   return (
-    <div style={containerStyle} className={className}>
+    <div className={className} style={styles}>
       {items.map((item, index) => (
         <Item 
-          key={index}
+          key={item.id}
           name={item.name} 
           index={index} 
           selected={selectedItemState.includes(index)} 

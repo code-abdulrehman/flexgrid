@@ -291,18 +291,11 @@ const FlexPropertiesManager = () => {
         tailwind: generateTailwindClasses(),
       },
     }));
-    dispatch(setTotalItems(1));
-    dispatch(setTotalSubItems(0));
-    dispatch(setTotalSubContainers(0));
-    dispatch(setTotalContainers(1));
-    dispatch(setSelectedItem([0]));
-    dispatch(setSelectedSubItem([]));
-    dispatch(setSelectedSubContainer([]));
   };
 
   useEffect(() => {
     handleOutputCode();
-  }, [displayType]);
+  }, [displayType, flexSettings, flexSettings.gapValue, flexSettings.gapUnit, flexSettings.overflow, flexSettings.flexDirection, flexSettings.flexWrap, flexSettings.justifyContent, flexSettings.alignItems, flexSettings.alignContent]);
 
   return (
     <>

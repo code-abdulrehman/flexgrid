@@ -83,6 +83,7 @@ const initialState = Object.freeze({
     }
   };
   
+  export const outputCode = (state) => state.outputCode;
   export const setOutputCode = createAction(ACTION_TYPES.SET_OUTPUT_CODE);
   export const setTotalItems = createAction(ACTION_TYPES.SET_TOTAL_ITEMS);
   export const setTotalSubItems = createAction(ACTION_TYPES.SET_TOTAL_SUB_ITEMS);
