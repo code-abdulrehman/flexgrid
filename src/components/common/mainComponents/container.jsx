@@ -3,7 +3,7 @@ import Item from "./item";
 import { useDispatch, useSelector } from "react-redux";  
 import { setSelectedItem } from "../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
-const Container = ({ display = "flex", gap = "10", className, styles }) => {
+const Container = ({ display = "flex", gap = "10", className, styles, ...props }) => {
   const dispatch = useDispatch();
   const totalItems = useSelector(state => state.outputCode.totalItems) || 4;
   const multipleSelection = useSelector(state => state.settingsOptions.multipleSelection);
@@ -57,7 +57,7 @@ const Container = ({ display = "flex", gap = "10", className, styles }) => {
   };
 
   return (
-    <div className={className} style={styles}>
+    <div className={className} style={{styles}} {...props}>
       {items.map((item, index) => (
         <Item 
           key={item.id}

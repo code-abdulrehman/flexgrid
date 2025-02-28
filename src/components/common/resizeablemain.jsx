@@ -105,7 +105,6 @@ const ResizableMain = ({ children, className }) => {
           position: "absolute",
           top: 0,
           left: 0,
-          overflow: "hidden",
         }}
       >
         <div style={{ padding: "10px" }}>{children}</div>

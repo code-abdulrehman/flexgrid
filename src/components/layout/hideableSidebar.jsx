@@ -35,10 +35,10 @@ const HideableSidebar = ({ className }) => {
   return (
     <div className={`${className} md:min-w-[38.5rem] md:max-w-[42.5rem] w-full bg-secondary h-full custom-rounded-lg transition-all ease-out duration-500 shadow-lg p-3 overflow-y-auto ${sidebarVisible ? "block" : "hidden"}`}>
 
-      <div className="p-4">
+      <div className="px-4">
         {currentLocation === "#pen" && (
           <div className="flex flex-col gap-4 py-2 transition-all ease-out duration-500">
-            <div className="flex flex-row gap-4 w-full p-2 gap-2 custom-rounded-lg bg-container text-secondary transition-all ease-out duration-500">
+            <div className="flex flex-row gap-4 w-full gap-2 custom-rounded-lg bg-container text-secondary transition-all ease-out duration-500">
               <div className={`w-1/2 py-4 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-3xl p-4 overflow-hidden text-ellipsis whitespace-nowrap ${currentTab === "container" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => handleTabClick("container")}> Container</div>
               <div className={`w-1/2 py-4 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-3xl p-4 overflow-hidden text-ellipsis whitespace-nowrap ${currentTab === "items" ? "bg-icon text-white" : "bg-transparent"}`} onClick={() => handleTabClick("items")}> Items</div>
               {subItemsAllowed ? (
@@ -48,26 +48,26 @@ const HideableSidebar = ({ className }) => {
 
 
             {(currentTab === "container" && location.pathname === "/flex") && (
-              <div className="flex flex-col gap-2 mt-6 transition-all ease-out duration-500">
+              <div className="flex flex-col gap-2 mt-4 transition-all ease-out duration-500">
                 <FlexPropertiesManager />
               </div>
             )}
 
             {(currentTab === "container" && location.pathname === "/grid") && (
-              <div className="flex flex-col gap-2 mt-6 transition-all ease-out duration-500">
+              <div className="flex flex-col gap-2 mt-4 transition-all ease-out duration-500">
                 <GridPropertiesManager />
               </div>
             )}
 
             {currentTab === "items" && (
-              <div className="flex flex-col gap-2 mt-6 transition-all ease-out duration-500">
+              <div className="flex flex-col gap-2 mt-4 transition-all ease-out duration-500">
                 {/* <EditTabListItem selectOrder="2" inpOrder="1" inpSelect={true} inpNum={false} /> */}
                 <ItemTabComponent />
               </div>
             )}
 
             {currentTab === "subItems" && (
-              <div className="flex flex-col gap-2 mt-6 transition-all ease-out duration-500">
+              <div className="flex flex-col gap-2 mt-4 transition-all ease-out duration-500">
                 <EditTabListItem selectOrder="2" inpOrder="1" inpSelect={true} inpNum={false} />
               </div>
             )}
@@ -78,7 +78,7 @@ const HideableSidebar = ({ className }) => {
         {currentLocation === "#save" && (
           <div className="flex flex-col gap-2 mt-4 transition-all ease-out duration-500">
             <SaveInput />
-            <div className="flex flex-col gap-2 mt-6">
+            <div className="flex flex-col gap-2 mt-4">
 
               <h3 className="text-secondary font-bold text-2xl text-center uppercase mb-4">Saved Edits</h3>
               <SavedItem name="Name" value="Value" date={new Date()} />

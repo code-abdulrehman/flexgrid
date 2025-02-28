@@ -34,7 +34,7 @@ const GridPropertiesManager = () => {
     alignContent: "start",
     gridAutoColumns: "auto",
     gridAutoRows: "auto",
-    gridAutoFlow: "row",
+    gridAutoFlow: "column",
     overflow: "auto",
   });
 
@@ -241,8 +241,8 @@ const GridPropertiesManager = () => {
       inpSelect: true,
       selectValue: simpleGridSettings.gridAutoFlow,
       options: [
-        { label: "row", value: "row" },
         { label: "column", value: "column" },
+        { label: "row", value: "row" },
         { label: "dense", value: "dense" },
         { label: "row dense", value: "row dense" },
         { label: "column dense", value: "column dense" },

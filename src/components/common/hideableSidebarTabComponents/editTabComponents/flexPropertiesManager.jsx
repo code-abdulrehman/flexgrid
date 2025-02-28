@@ -150,18 +150,29 @@ const FlexPropertiesManager = () => {
 
   // Generate plain CSS based on current flex settings
   const generateCSS = () => {
-    let css = `display: ${displayType};\n`;
+    let css = `display: ${displayType}\n`;
     if (displayType === "flex") {
-      css += `flex-direction: ${flexSettings.flexDirection};\n`;
-      css += `flex-wrap: ${flexSettings.flexWrap};\n`;
-      css += `justify-content: ${flexSettings.justifyContent};\n`;
-      css += `align-items: ${flexSettings.alignItems};\n`;
-      css += `align-content: ${flexSettings.alignContent};\n`;
-      css += `gap: ${flexSettings.gapValue}${flexSettings.gapUnit};\n`;
-      css += `${(flexSettings.overflow === "x-auto" ? "overflow-x" : flexSettings.overflow === "y-auto" ? "overflow-y" : "overflow")}: ${(flexSettings.overflow === "x-auto" || flexSettings.overflow === "y-auto") ? "auto" : flexSettings.overflow};\n`;
+      css += `flex-direction: ${flexSettings.flexDirection}\n`;
+      css += `flex-wrap: ${flexSettings.flexWrap}\n`;
+      css += `justify-content: ${flexSettings.justifyContent}\n`;
+      css += `align-items: ${flexSettings.alignItems}\n`;
+      css += `align-content: ${flexSettings.alignContent}\n`;
+      css += `gap: ${flexSettings.gapValue}${flexSettings.gapUnit}\n`;
+      css += `${
+        flexSettings.overflow === "x-auto"
+          ? "overflow-x"
+          : flexSettings.overflow === "y-auto"
+          ? "overflow-y"
+          : "overflow"
+      }: ${
+        flexSettings.overflow === "x-auto" || flexSettings.overflow === "y-auto"
+          ? "auto"
+          : flexSettings.overflow
+      }`;
     }
     return css;
   };
+  
 
   // Generate Tailwind CSS classes from flex settings.
   const generateTailwindClasses = () => {

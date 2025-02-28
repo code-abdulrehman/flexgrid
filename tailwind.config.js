@@ -8,5 +8,8 @@ export default {
     extend: {},
   },
   plugins: [],
+  safelist: [
+    { pattern: /gap-\[.*\]/ }, // Allows arbitrary gap values
+  ],
 }
 
