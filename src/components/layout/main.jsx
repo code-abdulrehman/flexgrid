@@ -15,10 +15,15 @@ const Main = () => {
       const gapValue = tailwindClasses.includes("gap") ? css?.split("gap:")[1]?.split("overflow")[0]?.trim() : null;
       return gapValue;
    }
+   function getOverflowValue(css) {
+      const overflowValue = css.includes("overflow") ? css?.split("overflow:")[1]?.trim() : null;
+      return overflowValue;
+   }
+
    const displayType = outputCodeData?.outputCode?.container?.type;
    useEffect(() => {
       console.log(tailwindClasses, "tailwindClasses");
-      console.log(getGapValue(css), "tailwindClasses gap");
+      console.log(getOverflowValue(css), "css overflow");
    }, [tailwindClasses]);
    return (
       <>
@@ -29,7 +34,7 @@ const Main = () => {
                <Container
                   styles={css}
                   className={tailwindClasses + ` py-6 gap-[${getGapValue(css)}] gap-[10px]`}
-                  style={{ gap: getGapValue(css) || "10px" }}
+                  style={{ gap: getGapValue(css) || "10px", overflow: getOverflowValue(css) || "auto" }}
                   display={displayType} />
             </ResizableMain >
          </div>
