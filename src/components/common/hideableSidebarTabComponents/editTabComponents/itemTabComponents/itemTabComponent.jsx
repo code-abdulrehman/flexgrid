@@ -5,7 +5,6 @@ import FlexPropertiesManager from "../flexPropertiesManager";
 import GridPropertiesManager from "../gridPropertiesManager";
 import { useSelector, useDispatch } from "react-redux";
 import ItemPropertiesManager from "./ItemPropertiesManager";
-import { setSubItemsAllowed } from "../../../../../lib/store/reducers/settingsOptionsReducer/settingsOptionsReducer";
 
 const ItemTabComponent = () => {
   const location = useLocation();
@@ -13,10 +12,6 @@ const ItemTabComponent = () => {
     (state) => state.settingsOptions.initialTotalItems
   );
 
-  // **Update here:** read from subItemsAllowed instead of subItems
-  const subItemsAllowed = useSelector(
-    (state) => state.settingsOptions.subItemsAllowed
-  );
   const dispatch = useDispatch();
 
 
@@ -411,73 +406,8 @@ const ItemTabComponent = () => {
 
   return (
     <div className="item-tab-component">
-      {/* Top header with title and a toggle for container (parent) properties */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold mb-4">
-          {localContainerType === "grid" ? "Grid" : "Flex"} Sub Container
-        </h2>
-        <span className="flex items-center justify-end w-1/2">
-          <label
-            htmlFor="subItemsAllowed"
-            className="relative inline-block w-16 h-8 cursor-pointer"
-          >
-            <input
-              type="checkbox"
-              id="subItemsAllowed"
-              className="sr-only peer"
-              checked={subItemsAllowed }
-              onChange={() => dispatch(setSubItemsAllowed(!subItemsAllowed))}
-            />
-            <div className="w-full h-full rounded-full bg-gray-300 peer-focus:ring-0 transition-colors duration-300 bg-[var(--text-secondary)] peer-checked:bg-[var(--color-primary)]"></div>
-            <span className="absolute left-0.5 top-0.5 h-7 w-7 bg-white rounded-full transition-transform duration-300 peer-checked:translate-x-8"></span>
-          </label>
-        </span>
-      </div>
-
-      {/* Optionally render parent/container properties */}
-      {subItemsAllowed && (
-        <div className="parent-properties mb-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-2">
-            Container Properties
-          </h3>
-          <div className="flex gap-2 mb-4">
-            <div className="flex flex-row gap-4 w-full p-2 rounded-2xl bg-container text-secondary transition-all ease-out duration-500">
-              <div
-                className={`w-1/2 py-3 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-2xl p-3 ${
-                  localContainerType === "flex"
-                    ? "bg-icon text-white"
-                    : "bg-transparent"
-                }`}
-                onClick={() => setLocalContainerType("flex")}
-              >
-                Flex
-              </div>
-              <div
-                className={`w-1/2 py-3 text-center font-bold flex justify-center items-center cursor-pointer transition-all ease-out duration-500 rounded-2xl p-3 ${
-                  localContainerType === "grid"
-                    ? "bg-icon text-white"
-                    : "bg-transparent"
-                }`}
-                onClick={() => setLocalContainerType("grid")}
-              >
-                Grid
-              </div>
-            </div>
-          </div>
-          <div className="container-properties-manager">
-            {localContainerType === "grid" ? (
-              <GridPropertiesManager />
-            ) : (
-              <FlexPropertiesManager
-                extra={localContainerType === "flex3"}
-              />
-            )}
-          </div>
-        </div>
-      )}
 
       <div className="container_outer flex flex-col mb-6">
-       
 
         <ItemPropertiesManager
           selectedItem={selectedItem}

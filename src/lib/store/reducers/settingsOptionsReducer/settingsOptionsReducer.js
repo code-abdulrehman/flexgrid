@@ -16,7 +16,6 @@ const ACTION_TYPES = {
   SELECTED_ITEM: "SELECTED_ITEM",
   SHOW_ITEMS_NAME: "SHOW_ITEMS_NAME",
   SET_SHOW_NAME: "SET_SHOW_NAME",
-  SET_SUB_ITEMS_ALLOWED: "SET_SUB_ITEMS_ALLOWED",
 };
 
 // Initial state (we add a new property 'subItems' to track whether sub-items are allowed)
@@ -30,7 +29,6 @@ const initialState = Object.freeze({
   selectedItem: [],
   multipleSelection: true,
   initialTotalItems: 4,
-  subItemsAllowed: false, // default: sub-items are NOT allowed
 });
 
 // Utility function to update state dynamically
@@ -87,9 +85,6 @@ const settingsOptionsReducer = (state = initialState, action) => {
 
     [ACTION_TYPES.SET_SHOW_NAME]: () =>
       handleStateUpdate(state, "showItemsName", action.payload),
-
-    [ACTION_TYPES.SET_SUB_ITEMS_ALLOWED]: () =>
-      handleStateUpdate(state, "subItemsAllowed", action.payload),
   };
 
   return handlers[action.type] ? handlers[action.type]() : state;
@@ -105,7 +100,6 @@ export const setAccentColor = createAction(ACTION_TYPES.SET_ACCENT_COLOR);
 export const setSidebarVisible = createAction(ACTION_TYPES.SET_SIDEBAR_VISIBLE);
 export const setSizeShow = createAction(ACTION_TYPES.SET_SIZE_SHOW);
 export const setMultiSelect = createAction(ACTION_TYPES.SET_MULTI_SELECT);
-export const setSubItemsAllowed = createAction(ACTION_TYPES.SET_SUB_ITEMS_ALLOWED);
 export const setResizeableOptions = createAction(
   ACTION_TYPES.SET_RESIZEABLE_OPTIONS
 );
